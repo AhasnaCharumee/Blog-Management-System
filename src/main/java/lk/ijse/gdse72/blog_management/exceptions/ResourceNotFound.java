@@ -1,4 +1,4 @@
-package lk.ijse.gdse72.back_end.exceptions;
+package lk.ijse.gdse72.blog_management.exceptions;
 
 public class ResourceNotFound extends RuntimeException{
     public ResourceNotFound(String message) {

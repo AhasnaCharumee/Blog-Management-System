@@ -1,6 +1,7 @@
-package lk.ijse.gdse72.back_end.exceptions;
+package lk.ijse.gdse72.blog_management.exceptions;
 
-import lk.ijse.gdse72.back_end.utility.APIResponse;
+
+import lk.ijse.gdse72.blog_management.utility.APIResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
