@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="responsive.css">
+
+    <title>BlogSphere</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        outline: none;
+        border: none;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #f6f2e9;
+    }
+
+    body {
+        background-color: black;
+    }
+
+    #back {
+        /*background-image: url(im/b.jpg);*/
+        height: 100vh;
+        width: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: fixed;
+        top: 0;
+        right: 0;
+        opacity: 0.6;
+    }
+
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+    .section-wrap {
+        background-color: rgba(255, 255, 255, 0.2);
+        width: 80%;
+        height: 75vh;
+        padding: 50px;
+        border-radius: 5px;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        z-index: 999;
+        overflow: hidden;
+    }
+
+    /* header */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 25px;
+    }
+
+    .head-logo {
+        font-size: 1.6rem;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    span {
+        color: #fd6537;
+    }
+
+    .nav-item {
+        font-size: 1rem;
+        letter-spacing: 1px;
+        margin: 15px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    .nav-item::before {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        right: 0;
+        background-color: #f6f2e9;
+        width: 100%;
+        height: 2px;
+        box-shadow: 0 0 5px #f6f2e9;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: 0.3s;
+    }
+
+    .nav-item:hover::before {
+        transform: scaleX(1);
+    }
+
+    .active {
+        color: #fd6537;
+        font-weight: bold;
+    }
+    .active::before {
+        background-color: #fd6537;
+        box-shadow: 0 0 5px #fd6537;
+    }
+
+    .hd-cta button {
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: #fd6537;
+        letter-spacing: 1px;
+        padding: 10px 25px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button.hd-ct-1 {
+        background-color: transparent;
+    }
+
+    .hd-cta button:hover {
+        background-color: #ff835e;
+    }
+
+    /* Hero content */
+    .hr-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    .ct-right img {
+        width: 100%;
+    }
+
+    .ct-right,
+    .ct-left {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .headline {
+        font-size: 5rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        line-height: 1.2;
+        margin-bottom: 40px;
+    }
+
+    .hr-description {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #d3cfc6;
+        margin-bottom: 50px;
+    }
+
+    #location {
+        font-size: 1rem;
+        background-color: transparent;
+    }
+
+    #location option {
+        background-color: #fd6537;
+        font-size: 1rem;
+    }
+
+    .hr-actions button {
+        font-size: 1rem;
+        background-color: #f6f2e9;
+        color: #333333;
+        font-weight: bold;
+        letter-spacing: 1px;
+        padding: 10px 25px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .hr-actions button:hover {
+        background-color: #fd6537;
+        color: #f6f2e9;
+    }
+
+    .hr-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+        border: 1px solid #f6f2e9;
+        padding: 20px;
+        border-radius: 3px;
+    }
+
+    /* Animations */
+    @keyframes bottomIn {
+        from {
+            transform: translateY(200px);
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    .headline,
+    .section-head,
+    .section-title,
+    .name,
+    .socials {
+        animation: 1s bottomIn ease-out forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+
+    .hr-description,
+    .ab-description,
+    .email,
+    .copyrights {
+        animation: 1.2s bottomIn ease-out forwards;
+        animation-delay: 0.4s;
+        opacity: 0;
+    }
+
+    .hr-actions,
+    .ds-btn,
+    .ab-st,
+    .pn {
+        animation: 1.4s bottomIn ease-out forwards;
+        animation-delay: 0.6s;
+        opacity: 0;
+    }
+
+    .send {
+        animation: 1.6s bottomIn ease-out forwards;
+        animation-delay: 0.6s;
+        opacity: 0;
+    }
+
+    @keyframes topIn {
+        from {
+            transform: translateY(-100%);
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    header {
+        animation: 1.6s topIn ease-out forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+
+    @keyframes zoomIn {
+        from {
+            transform: scale(0);
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .ct-right {
+        animation: 1.6s zoomIn ease-out forwards;
+        animation-delay: 0.2s;
+        opacity: 0;
+    }
+
+    .crd-1 {
+        animation: 1.4s zoomIn ease-out forwards;
+        animation-delay: 0.4s;
+        opacity: 0;
+    }
+    .crd-2 {
+        animation: 1.5s zoomIn ease-out forwards;
+        animation-delay: 0.6s;
+        opacity: 0;
+    }
+    .crd-3 {
+        animation: 1.6s zoomIn ease-out forwards;
+        animation-delay: 0.8s;
+        opacity: 0;
+    }
+
+    /* Destinatoin */
+
+    .section-title {
+        font-size: 2rem;
+        text-transform: uppercase;
+        font-weight: 800;
+    }
+
+    .section-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: last baseline;
+        margin-bottom: 50px;
+    }
+
+    .section-head i {
+        font-size: 1.6rem;
+        margin-right: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .section-head i:hover {
+        color: #fd6537;
+    }
+
+    .ds-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 80px;
+    }
+
+    .ds-card img {
+        width: 100%;
+        height: 250px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+    }
+
+    .ds-card {
+        padding: 25px;
+        border: 1px solid #f6f2e9;
+        border-radius: 5px;
+        position: relative;
+        transition: 0.3s;
+        margin-bottom: 50px;
+    }
+    .ds-card:hover {
+        background-color: #33333325;
+        box-shadow: 0 0 25px #f6f2e9;
+    }
+
+    .ds-crd-title {
+        margin-bottom: 20px;
+    }
+
+    .ds-card div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .price {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+    .crd-btn {
+        font-size: 1rem;
+        background-color: #fd6537;
+        padding: 10px 25px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .crd-btn:hover {
+        background-color: #ff835e;
+    }
+
+    .ds-rate {
+        background-color: #333333;
+        position: absolute;
+        top: 35px;
+        right: 35px;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+
+    .ds-rate i {
+        color: #fd6537;
+    }
+
+    .ds-btn {
+        font-size: 1rem;
+        font-weight: bold;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.3s;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-decoration: underline;
+    }
+
+    .ds-btn:hover {
+        color: #fd6537;
+    }
+
+    .ab-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+    }
+
+    .ab-content img {
+        width: 90%;
+    }
+
+    .ab-content .section-title {
+        margin-bottom: 50px;
+    }
+
+    .ab-description {
+        color: #d3cfc6;
+        margin-bottom: 50px;
+    }
+
+    .ab-st {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #f6f2e9;
+        padding: 20px;
+    }
+
+    .ab-content h3 {
+        font-size: 3rem;
+        color: #fd6537;
+        margin-bottom: 20px;
+    }
+
+    .ab-crd p {
+        color: #d3cfc6;
+    }
+
+    @keyframes rotate {
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+    .ab-content .ct-right img {
+        animation: rotate 60s linear infinite;
+        filter: drop-shadow(0 0 25px #f6f2e9);
+    }
+
+    /* Contact */
+    .ct-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #contact .ct-right img {
+        width: 80%;
+    }
+
+    #contact .ct-right {
+        align-items: end;
+        justify-content: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 90%;
+        margin-bottom: 100px;
+    }
+
+    #contact input {
+        font-size: 1rem;
+        color: #f6f2e9;
+        background-color: transparent;
+        border: 1px solid #f6f2e9;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    #contact input::placeholder {
+        color: #f6f2e9;
+    }
+
+    #contact .section-title {
+        margin-bottom: 50px;
+    }
+
+    #contact input.send {
+        background-color: #fd6537;
+        border-color: #fd6537;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    #contact input.send:hover {
+        background-color: #f6f2e9;
+        color: #333333;
+        border-color: #f6f2e9;
+    }
+
+    /* Footer */
+
+    .socials {
+        text-align: center;
+    }
+    .socials i {
+        margin: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-bottom: 25px;
+    }
+
+    .socials i:hover {
+        color: #fd6537;
+    }
+
+    .copyrights {
+        font-size: 0.8rem;
+        color: #d3cfc6;
+        text-align: center;
+    }
+
+    #footer {
+        height: auto;
+    }
+
+    #footer .section-wrap {
+        margin: 50px auto;
+        height: auto;
+    }
+
+</style>
+
+<body>
+<section id="hero">
+    <div id="back"></div>
+    <div class="section-wrap">
+        <header>
+            <a class="head-logo"><span>Blog</span>Sphere</a>
+
+
+
+            <div class="hd-cta">
+                <button class="hd-ct-1">Login</button>
+                <a href="/register"><button class="hd-ct-2">Register</button></a>            </div>
+        </header>
+
+        <div class="hr-content">
+            <div class="ct-left">
+                <h1 class="headline">Explore <span>Your Next </span>Blog Post</h1>
+
+                <p class="hr-description">
+                    ❝ Dive into a world of stories—discover inspiring articles, expert insights, and the latest trends today! ❞
+                </p>
+
+                <div class="hr-actions">
+                    <select name="category" id="category">
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="technology">Technology</option>
+                        <option value="travel">Travel</option>
+                        <option value="lifestyle">Lifestyle</option>
+                        <option value="food">Food</option>
+                        <option value="health">Health</option>
+                    </select>
+
+                    <button>Search</button>
+                </div>
+            </div>
+            <div class="ct-right">
+                <img src="im/book.png" alt="Blog Illustration">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="destination">
+    <div class="section-wrap">
+        <div class="section-head">
+            <h2 class="section-title">Latest <br /><span>Blog Posts</span></h2>
+
+            <div class="ds-control">
+                <i class="fa-solid fa-angle-left"></i>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </div>
+
+        <div class="ds-content">
+            <div class="ds-card crd-1">
+                <img src="im/d1.jpg" alt="Blog Post 1">
+                <h3 class="ds-crd-title">The Future of AI</h3>
+                <div>
+                    <p class="price">By John Doe</p>
+                    <button class="crd-btn">Read More</button>
+                </div>
+                <p class="ds-rate">
+                    <i class="fa-solid fa-star"></i>
+                    4.8
+                </p>
+            </div>
+
+            <div class="ds-card crd-2">
+                <img src="im/d2.jpg" alt="Blog Post 2">
+                <h3 class="ds-crd-title">Travel Tips for 2025</h3>
+                <div>
+                    <p class="price">By Jane Smith</p>
+                    <button class="crd-btn">Read More</button>
+                </div>
+                <p class="ds-rate">
+                    <i class="fa-solid fa-star"></i>
+                    4.6
+                </p>
+            </div>
+
+            <div class="ds-card crd-3">
+                <img src="im/d3.jpg" alt="Blog Post 3">
+                <h3 class="ds-crd-title">Healthy Eating Habits</h3>
+                <div>
+                    <p class="price">By Emily Brown</p>
+                    <button class="crd-btn">Read More</button>
+                </div>
+                <p class="ds-rate">
+                    <i class="fa-solid fa-star"></i>
+                    4.7
+                </p>
+            </div>
+        </div>
+
+        <button class="ds-btn">See all Posts</button>
+    </div>
+</section>
+
+<section id="about">
+    <div class="section-wrap">
+        <div class="ab-content">
+            <div class="ct-right">
+                <img src="im/p2.png" alt="Blog Author" class="animationRotste">
+            </div>
+            <div class="ct-left">
+                <h2 class="section-title">About <br /><span>BlogSphere</span></h2>
+
+                <p class="ab-description">
+                    BlogSphere is your go-to platform for engaging content. Whether you're interested in technology, travel, or lifestyle, our writers bring you the best stories and insights.
+                </p>
+
+                <div class="ab-st">
+                    <div class="ab-crd">
+                        <h3>10K+</h3>
+                        <p>Readers</p>
+                    </div>
+
+                    <div class="ab-crd">
+                        <h3>5+</h3>
+                        <p>Years of Writing</p>
+                    </div>
+
+                    <div class="ab-crd">
+                        <h3>50+</h3>
+                        <p>Published Posts</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-wrap">
+        <div class="ct-content">
+            <div class="ct-left">
+                <h2 class="section-title">Contact <span>us</span></h2>
+
+                <form>
+                    <input type="text" placeholder="Your name" spellcheck="false" class="name">
+                    <input type="text" placeholder="Your email" spellcheck="false" class="email">
+                    <input type="text" placeholder="Phone number" spellcheck="false" class="pn">
+                    <input type="submit" value="Send" class="send">
+                </form>
+            </div>
+
+            <div class="ct-right">
+                <img src="im/man.png" alt="Contact Illustration">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="footer">
+    <div class="section-wrap">
+        <div class="socials">
+            <i class="fa-brands fa-facebook-f"></i>
+            <i class="fa-brands fa-twitter"></i>
+            <i class="fa-brands fa-linkedin-in"></i>
+            <i class="fa-brands fa-youtube"></i>
+        </div>
+
+        <p class="copyrights">© BlogSphere 2025</p>
+    </div>
+</section>
+</body>
+
+</html>
