@@ -1,9 +1,13 @@
 package lk.ijse.gdse72.blog_management.controller;
 
 import lk.ijse.gdse72.blog_management.dto.PostDTO;
+import lk.ijse.gdse72.blog_management.entity.Post;
+import lk.ijse.gdse72.blog_management.entity.PostStatus;
+import lk.ijse.gdse72.blog_management.repository.PostRepository;
 import lk.ijse.gdse72.blog_management.service.PostService;
 import lk.ijse.gdse72.blog_management.utility.APIResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,5 +54,26 @@ public class PostController {
     public ResponseEntity<APIResponse<Void>> deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return ResponseEntity.ok(new APIResponse<>(200, "Post deleted successfully", null));
+    }
+    // src/main/java/lk/ijse/gdse72/blog_management/controller/PostController.java
+    @Autowired
+    private PostRepository postRepository;
+
+
+    @GetMapping("/published")
+    public APIResponse<List<PostDTO>> getPublishedPosts() {
+        List<Post> publishedPosts = postRepository.findByStatus(PostStatus.APPROVED);
+        List<PostDTO> dtos = publishedPosts.stream()
+                .map(post -> new PostDTO(
+                        post.getId(),
+                        post.getTitle(),
+                        post.getContent(),
+                        post.getAuthor(),
+                        post.getCreatedDate(),
+                        post.getImagePath(),
+                        post.getStatus()
+                ))
+                .toList();
+        return new APIResponse<>(200, "Success", dtos);
     }
 }
