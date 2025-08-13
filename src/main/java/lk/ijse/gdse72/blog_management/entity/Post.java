@@ -31,5 +31,14 @@ public class Post {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PostStatus status; // Add this line
-}
+    private PostStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = true)
+    private User user;
+    private int views;
+    private int likes;
+    private int commentsCount;
+
+    // Add this line
+}// src/main/java/lk/ijse/gdse72/blog_management/entity/Post.java

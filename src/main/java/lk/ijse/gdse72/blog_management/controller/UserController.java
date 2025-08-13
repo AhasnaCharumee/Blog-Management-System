@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/{email}")
     public UserDTO getUserByEmail(@PathVariable String email) {
-        Optional<User> user = userRepository.findById(email);
+        Optional<User> user = userRepository.findByEmail(email);
         return user.map(u -> new UserDTO(u.getEmail(), u.getName())).orElse(null);
     }
 }

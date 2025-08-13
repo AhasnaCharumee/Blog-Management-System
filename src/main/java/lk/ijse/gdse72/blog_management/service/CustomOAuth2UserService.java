@@ -21,8 +21,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
-        if (email != null && !userRepository.existsById(email)) {
-            User user = new User();
+        if (email != null && userRepository.findByEmail(email).isEmpty()) {            User user = new User();
             user.setEmail(email);
             user.setName(name);
             userRepository.save(user);

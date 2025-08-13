@@ -3,15 +3,20 @@ package lk.ijse.gdse72.blog_management.controller;
 import lk.ijse.gdse72.blog_management.dto.PostDTO;
 import lk.ijse.gdse72.blog_management.entity.Post;
 import lk.ijse.gdse72.blog_management.entity.PostStatus;
+import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.repository.PostRepository;
 import lk.ijse.gdse72.blog_management.service.PostService;
 import lk.ijse.gdse72.blog_management.utility.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.security.core.Authentication;
+import lk.ijse.gdse72.blog_management.entity.User;
+import lk.ijse.gdse72.blog_management.repository.UserRepository;
+import java.util.Optional;
 import java.util.List;
 
 @RestController
@@ -20,7 +25,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:63342") // Adjust based on your frontend
 public class PostController {
     private final PostService postService;
-
+    @Autowired
+    private UserRepository userRepository;
     @PostMapping
     public ResponseEntity<APIResponse<PostDTO>> createPost(
             @RequestPart("post") PostDTO postDTO,
@@ -60,6 +66,7 @@ public class PostController {
     private PostRepository postRepository;
 
 
+    // src/main/java/lk/ijse/gdse72/blog_management/controller/PostController.java
     @GetMapping("/published")
     public APIResponse<List<PostDTO>> getPublishedPosts() {
         List<Post> publishedPosts = postRepository.findByStatus(PostStatus.APPROVED);
@@ -71,9 +78,17 @@ public class PostController {
                         post.getAuthor(),
                         post.getCreatedDate(),
                         post.getImagePath(),
-                        post.getStatus()
+                        post.getStatus(),
+                        post.getViews(),
+                        post.getLikes(),
+                        post.getCommentsCount()
                 ))
                 .toList();
         return new APIResponse<>(200, "Success", dtos);
+    }
+    @GetMapping("/me/posts")
+    public List<PostDTO> getMyPosts(Authentication auth) {
+        User user = userRepository.findByEmail(auth.getName()).orElseThrow();
+        return postService.getPostsByUser(user);
     }
 }
