@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,5 +43,10 @@ public class GlobuleExceptionHandler {
                 "Validation failed",
                 errors), HttpStatus.BAD_REQUEST);
 
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<APIResponse<String>> handleFileNotFound(FileNotFoundException exception) {
+        return new ResponseEntity<>(new APIResponse<>(404, "Resource not found", null), HttpStatus.NOT_FOUND);
     }
 }

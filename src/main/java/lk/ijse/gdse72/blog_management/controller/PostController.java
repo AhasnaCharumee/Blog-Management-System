@@ -4,6 +4,7 @@ import lk.ijse.gdse72.blog_management.dto.PostDTO;
 import lk.ijse.gdse72.blog_management.entity.Post;
 import lk.ijse.gdse72.blog_management.entity.PostStatus;
 import lk.ijse.gdse72.blog_management.entity.User;
+import lk.ijse.gdse72.blog_management.exceptions.ResourceNotFound;
 import lk.ijse.gdse72.blog_management.repository.PostRepository;
 import lk.ijse.gdse72.blog_management.service.PostService;
 import lk.ijse.gdse72.blog_management.utility.APIResponse;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.security.core.Authentication;
 import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.repository.UserRepository;
+
+import java.util.Collections;
 import java.util.Optional;
 import java.util.List;
 
@@ -87,8 +90,13 @@ public class PostController {
         return new APIResponse<>(200, "Success", dtos);
     }
     @GetMapping("/me/posts")
-    public List<PostDTO> getMyPosts(Authentication auth) {
-        User user = userRepository.findByEmail(auth.getName()).orElseThrow();
-        return postService.getPostsByUser(user);
+    public ResponseEntity<APIResponse<List<PostDTO>>> getMyPosts(Authentication auth) {
+        if (auth == null || auth.getName() == null) {
+            return ResponseEntity.status(401).body(new APIResponse<>(401, "User not authenticated", null));
+        }
+        User user = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new ResourceNotFound("User not found with email: " + auth.getName()));
+        List<PostDTO> posts = postService.getPostsByUser(user);
+        return ResponseEntity.ok(new APIResponse<>(200, "Posts retrieved successfully", posts));
     }
 }

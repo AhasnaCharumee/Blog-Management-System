@@ -11,14 +11,15 @@ public class UserDTO {
     private String email;
     private String name;
 
-    private String password;
     public UserDTO() {
     }
 
-    public UserDTO(String email, String name) {
+    public UserDTO(Long id, String email, String name) {
+        this.id = id;
         this.email = email;
         this.name = name;
     }
+
 
     public String getEmail() {
         return email;
