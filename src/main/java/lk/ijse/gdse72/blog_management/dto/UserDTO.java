@@ -1,25 +1,30 @@
 package lk.ijse.gdse72.blog_management.dto;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 public class UserDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     private String name;
+    private String bio; // new field
+    private String profileImagePath; // new field
 
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String email, String name) {
+    public UserDTO(Long id, String email, String name, String bio, String profileImagePath) {
         this.id = id;
         this.email = email;
         this.name = name;
+        this.bio = bio;
+        this.profileImagePath = profileImagePath;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;
@@ -36,10 +41,20 @@ public class UserDTO {
     public void setName(String name) {
         this.name = name;
     }
-    public Long getId() {
-        return id;
+
+    public String getBio() {
+        return bio;
     }
-    public void setId(Long id) {
-        this.id = id;
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getProfileImagePath() {
+        return profileImagePath;
+    }
+
+    public void setProfileImagePath(String profileImagePath) {
+        this.profileImagePath = profileImagePath;
     }
 }
