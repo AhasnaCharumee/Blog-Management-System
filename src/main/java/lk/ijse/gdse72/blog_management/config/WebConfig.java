@@ -14,14 +14,19 @@ public class WebConfig implements WebMvcConfigurer {
         String uploadPath = "file:" + System.getProperty("user.dir") + "/uploads/";
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadPath);
+
+        // Map all static resources, including HTML files, from /static/
+        registry.addResourceHandler("/**")
+                .addResourceLocations("classpath:/static/");
     }
+
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:63342")
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:8080", "http://localhost:63342")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowCredentials(true);
             }
