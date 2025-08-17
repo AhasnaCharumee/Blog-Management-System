@@ -715,3 +715,43 @@ Fix this pattern in your application or switch to the legacy parser implementati
 2025-08-18T02:19:30.204+05:30  INFO 7792 --- [Blog_Management] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-08-18T02:19:30.205+05:30  INFO 7792 --- [Blog_Management] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2025-08-18T02:19:30.206+05:30  INFO 7792 --- [Blog_Management] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms
+2025-08-18T02:28:06.229+05:30  INFO 7792 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-08-18T02:28:06.268+05:30  INFO 7792 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-08-18T02:28:06.289+05:30  INFO 7792 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18T02:28:06.315+05:30  INFO 7792 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-08-18T02:28:06.354+05:30  INFO 7792 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-08-18T02:36:37.749+05:30  INFO 13800 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 13800 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
+2025-08-18T02:36:37.762+05:30 DEBUG 13800 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-08-18T02:36:37.766+05:30  INFO 13800 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-08-18T02:36:40.761+05:30  INFO 13800 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-08-18T02:36:40.894+05:30  INFO 13800 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 120 ms. Found 5 JPA repository interfaces.
+2025-08-18T02:36:41.630+05:30  INFO 13800 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-08-18T02:36:41.652+05:30  INFO 13800 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-08-18T02:36:41.652+05:30  INFO 13800 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-08-18T02:36:41.722+05:30  INFO 13800 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-08-18T02:36:41.723+05:30  INFO 13800 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3587 ms
+2025-08-18T02:36:41.977+05:30  INFO 13800 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-08-18T02:36:42.071+05:30  INFO 13800 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-08-18T02:36:42.154+05:30  INFO 13800 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-08-18T02:36:42.656+05:30  INFO 13800 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-08-18T02:36:42.715+05:30  INFO 13800 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-08-18T02:36:43.349+05:30  INFO 13800 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5dd747c1
+2025-08-18T02:36:43.351+05:30  INFO 13800 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-08-18T02:36:43.455+05:30  WARN 13800 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-08-18T02:36:43.486+05:30  INFO 13800 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-08-18T02:36:44.845+05:30  INFO 13800 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-08-18T02:36:45.031+05:30  INFO 13800 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-08-18T02:36:45.743+05:30  WARN 13800 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-08-18T02:36:45.788+05:30  INFO 13800 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-08-18T02:36:46.663+05:30  INFO 13800 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-08-18T02:36:46.671+05:30  INFO 13800 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 11.109 seconds (process running for 12.246)
+2025-08-18T02:37:20.659+05:30  INFO 13800 --- [Blog_Management] [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-08-18T02:37:20.659+05:30  INFO 13800 --- [Blog_Management] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-08-18T02:37:20.665+05:30  INFO 13800 --- [Blog_Management] [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 5 ms
