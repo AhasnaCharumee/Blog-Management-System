@@ -240,7 +240,8 @@
     async function loadMyPosts() {
         try {
             const response = await fetch(`${BASE_URL}/me/posts`, { credentials: 'include' });
-            const posts = await response.json();
+            const result = await response.json();
+            const posts = Array.isArray(result) ? result : (result.data || []);
             const postsList = document.getElementById('postsList');
             if (!posts.length) {
                 postsList.innerHTML = '<div class="alert alert-info">No posts yet.</div>';
@@ -252,7 +253,13 @@
                     <p>${post.content}</p>
                     ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image mb-2">` : ''}
                     <div class="engagement mb-2">
-                        👍 ${post.likes} &nbsp; 💬 ${post.commentsCount} &nbsp; 👁️ ${post.views}
+                        👍 <span id="like-count-${post.id}">${post.likes}</span>
+                        <button class="btn btn-sm btn-warning like-btn" data-id="${post.id}">Like</button>
+                        💬 ${post.commentsCount}
+                    </div>
+                    <div class="mb-2">
+                        <input type="text" class="form-control d-inline-block w-75 comment-input" id="comment-input-${post.id}" placeholder="Add a comment">
+                        <button class="btn btn-sm btn-primary comment-btn" data-id="${post.id}">Comment</button>
                     </div>
                     <button class="glassy-btn edit-btn" data-id="${post.id}" style="margin-right:10px;">Edit</button>
                     <button class="btn btn-danger btn-sm delete-btn" data-id="${post.id}">Delete</button>
@@ -264,6 +271,27 @@
             });
             document.querySelectorAll('.edit-btn').forEach(btn => {
                 btn.onclick = () => openEditModal(btn.getAttribute('data-id'));
+            });
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.onclick = async () => {
+                    const postId = btn.getAttribute('data-id');
+                    await fetch(`${BASE_URL}/${postId}/like`, { method: 'POST', credentials: 'include' });
+                    loadMyPosts();
+                };
+            });
+            document.querySelectorAll('.comment-btn').forEach(btn => {
+                btn.onclick = async () => {
+                    const postId = btn.getAttribute('data-id');
+                    const commentText = document.getElementById(`comment-input-${postId}`).value;
+                    if (!commentText.trim()) return;
+                    await fetch(`${BASE_URL}/${postId}/comment`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: commentText })
+                    });
+                    loadMyPosts();
+                };
             });
         } catch (error) {
             document.getElementById('postsList').innerHTML = '<div class="alert alert-danger">Failed to load posts.</div>';
@@ -320,7 +348,6 @@
     // Edit post modal logic
     let editModal = new bootstrap.Modal(document.getElementById('editModal'));
     async function openEditModal(id) {
-        // Find post data
         const response = await fetch(`${BASE_URL}/${id}`, { credentials: 'include' });
         const data = await response.json();
         const post = data.data;

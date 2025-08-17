@@ -1,12 +1,19 @@
 package lk.ijse.gdse72.blog_management.controller;
 
 import lk.ijse.gdse72.blog_management.dto.PostDTO;
+import lk.ijse.gdse72.blog_management.dto.CommentDTO;
+import lk.ijse.gdse72.blog_management.dto.LikeDTO;
 import lk.ijse.gdse72.blog_management.entity.Post;
 import lk.ijse.gdse72.blog_management.entity.PostStatus;
 import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.exceptions.ResourceNotFound;
 import lk.ijse.gdse72.blog_management.repository.PostRepository;
+import lk.ijse.gdse72.blog_management.repository.CommentRepository;
+import lk.ijse.gdse72.blog_management.repository.LikeRepository;
+import lk.ijse.gdse72.blog_management.repository.UserRepository;
 import lk.ijse.gdse72.blog_management.service.PostService;
+import lk.ijse.gdse72.blog_management.service.CommentService;
+import lk.ijse.gdse72.blog_management.service.LikeService;
 import lk.ijse.gdse72.blog_management.utility.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.security.core.Authentication;
-import lk.ijse.gdse72.blog_management.entity.User;
-import lk.ijse.gdse72.blog_management.repository.UserRepository;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -25,51 +29,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:63342") // Adjust based on your frontend
 public class PostController {
-    private final PostService postService;
-    @Autowired
-    private UserRepository userRepository;
-    @PostMapping
-    public ResponseEntity<APIResponse<PostDTO>> createPost(
-            @RequestPart("post") PostDTO postDTO,
-            @RequestPart("image") MultipartFile image) {
-        PostDTO createdPost = postService.createPost(postDTO, image);
-        return ResponseEntity.ok(new APIResponse<>(200, "Post created successfully", createdPost));
-    }
 
-    @GetMapping
-    public ResponseEntity<APIResponse<List<PostDTO>>> getAllPosts() {
-        List<PostDTO> posts = postService.getAllPosts();
-        return ResponseEntity.ok(new APIResponse<>(200, "Posts retrieved successfully", posts));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<APIResponse<PostDTO>> getPostById(@PathVariable Long id) {
-        PostDTO post = postService.getPostById(id);
-        return ResponseEntity.ok(new APIResponse<>(200, "Post retrieved successfully", post));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<APIResponse<PostDTO>> updatePost(
-            @PathVariable Long id,
-            @RequestPart("post") PostDTO postDTO,
-            @RequestPart("image") MultipartFile image) {
-        PostDTO updatedPost = postService.updatePost(id, postDTO, image);
-        return ResponseEntity.ok(new APIResponse<>(200, "Post updated successfully", updatedPost));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse<Void>> deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
-        return ResponseEntity.ok(new APIResponse<>(200, "Post deleted successfully", null));
-    }
-    // src/main/java/lk/ijse/gdse72/blog_management/controller/PostController.java
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private PostService postService;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private LikeService likeService;
+    @Autowired
+    private LikeRepository likeRepository;
 
-
-    // src/main/java/lk/ijse/gdse72/blog_management/controller/PostController.java
     @GetMapping("/published")
     public APIResponse<List<PostDTO>> getPublishedPosts() {
         List<Post> publishedPosts = postRepository.findByStatus(PostStatus.APPROVED);
@@ -89,6 +63,7 @@ public class PostController {
                 .toList();
         return new APIResponse<>(200, "Success", dtos);
     }
+
     @GetMapping("/me/posts")
     public ResponseEntity<APIResponse<List<PostDTO>>> getMyPosts(Authentication auth) {
         if (auth == null || auth.getName() == null) {
@@ -98,5 +73,50 @@ public class PostController {
                 .orElseThrow(() -> new ResourceNotFound("User not found with email: " + auth.getName()));
         List<PostDTO> posts = postService.getPostsByUser(user);
         return ResponseEntity.ok(new APIResponse<>(200, "Posts retrieved successfully", posts));
+    }
+
+    // Endpoint to toggle a like
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<APIResponse<LikeDTO>> toggleLike(@PathVariable Long postId, Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.status(401).body(new APIResponse<>(401, "User not authenticated", null));
+        }
+        String userEmail = authentication.getName();
+        LikeDTO result = likeService.toggleLike(postId, userEmail);
+        return ResponseEntity.ok(new APIResponse<>(200, "Like toggled successfully", result));
+    }
+
+    // Endpoint to get comments for a post
+    @GetMapping("/{postId}/comments")
+    public ResponseEntity<APIResponse<List<CommentDTO>>> getComments(@PathVariable Long postId) {
+        List<CommentDTO> comments = commentService.getCommentsByPost(postId);
+        return ResponseEntity.ok(new APIResponse<>(200, "Comments retrieved successfully", comments));
+    }
+
+    // Endpoint to create a comment
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<APIResponse<CommentDTO>> createComment(@PathVariable Long postId, @RequestBody String content, Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.status(401).body(new APIResponse<>(401, "User not authenticated", null));
+        }
+        String userEmail = authentication.getName();
+        CommentDTO newComment = commentService.createComment(postId, userEmail, content);
+        return ResponseEntity.ok(new APIResponse<>(200, "Comment created successfully", newComment));
+    }
+
+    // Endpoint to check if the user has liked a post
+    @GetMapping("/{postId}/user-like-status")
+    public ResponseEntity<APIResponse<Boolean>> getUserLikeStatus(@PathVariable Long postId, Authentication authentication) {
+        if (authentication == null || authentication.getName() == null) {
+            // Not logged in, so they haven't liked it
+            return ResponseEntity.ok(new APIResponse<>(200, "User not logged in", false));
+        }
+        String userEmail = authentication.getName();
+        User user = userRepository.findByEmail(userEmail)
+                .orElse(null);
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFound("Post not found with id " + postId));
+        boolean hasLiked = user != null && likeRepository.findByUserAndPost(user, post).isPresent();
+        return ResponseEntity.ok(new APIResponse<>(200, "Like status retrieved", hasLiked));
     }
 }

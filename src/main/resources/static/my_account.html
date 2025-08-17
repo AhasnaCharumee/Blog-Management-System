@@ -311,6 +311,38 @@
         loadUser();
         loadUserPosts();
     };
+    document.addEventListener('DOMContentLoaded', loadUserPosts);
+
+    function renderPostCard(post) {
+        return `
+        <div class="post-card">
+            <div class="post-title">${post.title}</div>
+            <div class="post-content">${post.content}</div>
+            ${post.imagePath ? `<img src="/uploads/${post.imagePath}" style="max-width:100%;border-radius:8px;margin-top:8px;">` : ''}
+            <div style="color:#fd6537;font-size:0.95em;margin-top:6px;">
+                👍 ${post.likes} &nbsp; 💬 ${post.commentsCount} &nbsp; 👁️ ${post.views}
+            </div>
+        </div>
+    `;
+    }
+
+    async function loadUserPosts() {
+        try {
+            const response = await fetch('http://localhost:8080/api/posts/me/posts', { credentials: 'include' });
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            const result = await response.json();
+            const posts = Array.isArray(result) ? result : (result.data || []); // Handle both flat array or {data: [...]}
+            const userPostsDiv = document.getElementById('userPosts');
+            if (!posts.length) {
+                userPostsDiv.innerHTML = '<div class="alert alert-info">No posts yet.</div>';
+                return;
+            }
+            userPostsDiv.innerHTML = posts.map(renderPostCard).join('');
+        } catch (e) {
+            console.error('Error loading posts:', e);
+            document.getElementById('userPosts').innerHTML = '<div class="alert alert-danger">Failed to load posts.</div>';
+        }
+    }
 </script>
 </body>
 </html>

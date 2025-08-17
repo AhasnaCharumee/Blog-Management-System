@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,16 +31,8 @@ public class PostServiceImpl implements PostService {
     private final String uploadDir = "uploads/";
 
     @Override
-    public PostDTO createPost(PostDTO postDTO, MultipartFile image) {
-        User user = null;
-        String authorName = postDTO.getAuthor();
-
-        // Try to find user by email, but don't throw if not found
-        Optional<User> userOpt = userRepository.findByEmail(authorName);
-        if (userOpt.isPresent()) {
-            user = userOpt.get();
-            authorName = user.getName() != null ? user.getName() : user.getEmail();
-        }
+    public PostDTO createPost(PostDTO postDTO, MultipartFile image, User user) {
+        String authorName = user.getName() != null ? user.getName() : user.getEmail();
 
         String imagePath = null;
         if (image != null && !image.isEmpty()) {
@@ -55,7 +46,7 @@ public class PostServiceImpl implements PostService {
                 .createdDate(postDTO.getCreatedDate() != null ? postDTO.getCreatedDate() : LocalDateTime.now())
                 .imagePath(imagePath)
                 .status(PostStatus.PENDING)
-                .user(user) // can be null
+                .user(user) // Link to authenticated user
                 .views(0)
                 .likes(0)
                 .commentsCount(0)
@@ -64,6 +55,8 @@ public class PostServiceImpl implements PostService {
         Post saved = postRepository.save(post);
         return toDTO(saved);
     }
+
+
 
     @Override
     public List<PostDTO> getAllPosts() {

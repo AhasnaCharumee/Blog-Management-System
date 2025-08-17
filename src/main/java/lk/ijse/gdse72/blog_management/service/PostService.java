@@ -7,7 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface PostService {
-    PostDTO createPost(PostDTO postDTO, MultipartFile image);
+    PostDTO createPost(PostDTO postDTO, MultipartFile image, User user);
+
+
 
     List<PostDTO> getAllPosts();
 
