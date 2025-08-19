@@ -8,140 +8,31 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="/front_end/images/download.png.png" type="image/x-icon">
     <style>
-        body {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            min-height: 100vh;
-            color: #f6f2e9;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .navbar-glass {
-            background: rgba(34,34,34,0.85);
-            backdrop-filter: blur(8px);
-            border-radius: 16px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.25);
-            margin: 18px auto 32px auto;
-            padding: 0.7rem 1.5rem;
-            max-width: 1100px;
-        }
-        .navbar-brand {
-            font-weight: 700;
-            font-size: 1.3rem;
-            color: #fd6537 !important;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .navbar-brand img {
-            width: 38px;
-        }
-        .nav-link, .btn-nav {
-            color: #fff !important;
-            font-weight: 500;
-            margin-right: 10px;
-            border-radius: 8px;
-            transition: background 0.2s;
-        }
-        .btn-nav {
-            background: #fd6537;
-            border: none;
-            padding: 8px 18px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        .btn-nav:hover, .nav-link:hover {
-            background: #ff835e;
-            color: #fff !important;
-        }
-        .btn-logout {
-            background: #333;
-            color: #fd6537 !important;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            gap: 7px;
-        }
-        .btn-logout:hover {
-            background: #fd6537;
-            color: #fff !important;
-        }
-        .glassy-card {
-            background: rgba(255,255,255,0.13);
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.37);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255,255,255,0.18);
-            padding: 2rem 1.5rem;
-            margin-bottom: 2rem;
-        }
-        .glassy-btn {
-            background: #fd6537;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 10px 22px;
-            font-weight: 600;
-            transition: background 0.2s;
-        }
-        .glassy-btn:hover {
-            background: #ff835e;
-        }
-        .post-image {
-            max-width: 200px;
-            max-height: 200px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.2);
-        }
-        .engagement {
-            font-size: 0.95em;
-            color: #fd6537;
-        }
-        .modal-content {
-            background: rgba(34,34,34,0.95);
-            color: #fff;
-            border-radius: 16px;
-            border: 1px solid #fd6537;
-        }
-        .modal-header, .modal-footer {
-            border: none;
-        }
-        .form-label {
-            color: #fd6537;
-            font-weight: 500;
-        }
-        .form-control {
-            background: rgba(255,255,255,0.07);
-            color: #fff;
-            border: 1px solid #fd6537;
-            border-radius: 8px;
-        }
-        .form-control:focus {
-            background: rgba(255,255,255,0.15);
-            border-color: #ff835e;
-            color: #fff;
-        }
+        body { background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); min-height:100vh; color:#f6f2e9; font-family:Arial, Helvetica, sans-serif;}
+        .navbar-glass {background: rgba(34,34,34,0.85); backdrop-filter: blur(8px); border-radius:16px; margin:18px auto 32px auto; padding:0.7rem 1.5rem; max-width:1100px;}
+        .navbar-brand {font-weight:700; font-size:1.3rem; color:#fd6537 !important; display:flex; align-items:center; gap:10px;}
+        .navbar-brand img {width:38px;}
+        .nav-link, .btn-nav {color:#fff !important; font-weight:500; margin-right:10px; border-radius:8px; transition:background 0.2s;}
+        .btn-nav {background:#fd6537; border:none; padding:8px 18px; display:flex; align-items:center; gap:7px;}
+        .btn-nav:hover, .nav-link:hover {background:#ff835e; color:#fff !important;}
+        .btn-logout {background:#333; color:#fd6537 !important; border:none; padding:8px 18px; border-radius:8px; display:flex; align-items:center; gap:7px;}
+        .btn-logout:hover {background:#fd6537; color:#fff !important;}
+        .glassy-card {background: rgba(255,255,255,0.13); border-radius:18px; box-shadow:0 8px 32px rgba(0,0,0,0.37); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.18); padding:2rem 1.5rem; margin-bottom:2rem;}
+        .glassy-btn {background:#fd6537; color:#fff; border:none; border-radius:8px; padding:10px 22px; font-weight:600; transition:background 0.2s;}
+        .glassy-btn:hover {background:#ff835e;}
+        .post-image {max-width:200px; max-height:200px; object-fit:cover; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.2);}
+        .engagement {font-size:0.95em; color:#fd6537;}
+        .modal-content {background: rgba(34,34,34,0.95); color:#fff; border-radius:16px; border:1px solid #fd6537;}
+        .modal-header, .modal-footer {border:none;}
+        .form-label {color:#fd6537; font-weight:500;}
+        .form-control {background: rgba(255,255,255,0.07); color:#fff; border:1px solid #fd6537; border-radius:8px;}
+        .form-control:focus {background: rgba(255,255,255,0.15); border-color:#ff835e; color:#fff;}
         @media (max-width: 600px) {
-            .navbar-glass {
-                padding: 0.5rem 0.5rem;
-                max-width: 98vw;
-            }
-            .navbar-brand img {
-                width: 28px;
-            }
-            .btn-nav, .btn-logout {
-                padding: 6px 10px;
-                font-size: 0.95rem;
-            }
-            .glassy-card {
-                padding: 1rem 0.5rem;
-            }
-            .post-image {
-                max-width: 120px;
-                max-height: 120px;
-            }
+            .navbar-glass {padding:0.5rem 0.7rem;}
+            .navbar-brand img {width:28px;}
+            .btn-nav, .btn-logout {padding:6px 12px; font-size:0.95em;}
+            .glassy-card {padding:1rem 0.5rem;}
+            .post-image {max-width:120px; max-height:120px;}
         }
     </style>
 </head>
@@ -153,20 +44,12 @@
             BlogSphere
         </a>
         <div class="d-flex">
-            <a href="/post.html" class="btn btn-nav">
-                <i class="fa-solid fa-plus"></i> Create New Post
-            </a>
-            <a href="/published-posts.html" class="btn btn-nav">
-                <i class="fa-solid fa-list"></i> All Posts
-            </a>
-            <form action="/logout" method="post" style="display:inline;">
-                <button type="submit" class="btn btn-logout">
-                    <i class="fa-solid fa-right-from-bracket"></i> Logout
-                </button>
-            </form>
+            <a href="/published-posts.html" class="btn btn-nav"><i class="fa-solid fa-list"></i> Published Posts</a>
+            <button id="logoutBtn" class="btn btn-logout"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
         </div>
     </div>
 </nav>
+
 <div class="container py-4">
     <h1 class="mb-4 text-center" style="color:#fd6537; font-weight:700;">My Posts</h1>
 
@@ -176,19 +59,15 @@
         <form id="postForm" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control" id="title" required>
+                <input type="text" id="title" class="form-control" required>
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Content</label>
-                <textarea class="form-control" id="content" rows="3" required></textarea>
+                <textarea id="content" class="form-control" rows="4" required></textarea>
             </div>
             <div class="mb-3">
-                <label for="author" class="form-label">Author Name</label>
-                <input type="text" class="form-control" id="author" required>
-            </div>
-            <div class="mb-3">
-                <label for="image" class="form-label">Upload Image</label>
-                <input type="file" class="form-control" id="image" accept="image/*">
+                <label for="image" class="form-label">Image (optional)</label>
+                <input type="file" id="image" class="form-control" accept="image/*">
             </div>
             <button type="submit" class="glassy-btn">Submit Post</button>
         </form>
@@ -200,190 +79,93 @@
     <div id="postsList"></div>
 </div>
 
-<!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form id="editPostForm" class="modal-content" enctype="multipart/form-data">
-      <div class="modal-header">
-        <h5 class="modal-title" style="color:#fd6537;">Edit Post</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <input type="hidden" id="editPostId">
-        <div class="mb-3">
-          <label for="editTitle" class="form-label">Title</label>
-          <input type="text" class="form-control" id="editTitle" required>
-        </div>
-        <div class="mb-3">
-          <label for="editContent" class="form-label">Content</label>
-          <textarea class="form-control" id="editContent" rows="3" required></textarea>
-        </div>
-        <div class="mb-3">
-          <label for="editImage" class="form-label">Change Image</label>
-          <input type="file" class="form-control" id="editImage" accept="image/*">
-        </div>
-        <div id="editImagePreview" class="mb-2"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="glassy-btn">Save Changes</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </form>
-  </div>
-</div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const BASE_URL = 'http://localhost:8080/api/posts';
 
-    // Fetch and display user's posts
+    function getToken() {
+        return localStorage.getItem('token');
+    }
+
+    function getAuthHeaders() {
+        const token = getToken();
+        return token ? { 'Authorization': 'Bearer ' + token } : {};
+    }
+
     async function loadMyPosts() {
         try {
-            const response = await fetch(`${BASE_URL}/me/posts`, { credentials: 'include' });
+            const response = await fetch(`${BASE_URL}/me/posts`, {
+                headers: getAuthHeaders()
+            });
+            if (!response.ok) throw new Error("Failed to fetch");
             const result = await response.json();
-            const posts = Array.isArray(result) ? result : (result.data || []);
             const postsList = document.getElementById('postsList');
-            if (!posts.length) {
-                postsList.innerHTML = '<div class="alert alert-info">No posts yet.</div>';
+            const posts = result.data || [];
+            if(posts.length === 0) {
+                postsList.innerHTML = `<div class="alert alert-info">You have not created any posts yet.</div>`;
                 return;
             }
             postsList.innerHTML = posts.map(post => `
-                <div class="glassy-card">
-                    <h5 style="color:#fd6537;">${post.title}</h5>
-                    <p>${post.content}</p>
-                    ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image mb-2">` : ''}
-                    <div class="engagement mb-2">
-                        👍 <span id="like-count-${post.id}">${post.likes}</span>
-                        <button class="btn btn-sm btn-warning like-btn" data-id="${post.id}">Like</button>
-                        💬 ${post.commentsCount}
+                <div class="card glassy-card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color:#fd6537;">${post.title}</h5>
+                        <p class="card-text"><small>${new Date(post.createdDate).toLocaleString()}</small></p>
+                        ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image mb-2" alt="Post Image">` : ''}
+                        <p class="card-text">${post.content}</p>
                     </div>
-                    <div class="mb-2">
-                        <input type="text" class="form-control d-inline-block w-75 comment-input" id="comment-input-${post.id}" placeholder="Add a comment">
-                        <button class="btn btn-sm btn-primary comment-btn" data-id="${post.id}">Comment</button>
-                    </div>
-                    <button class="glassy-btn edit-btn" data-id="${post.id}" style="margin-right:10px;">Edit</button>
-                    <button class="btn btn-danger btn-sm delete-btn" data-id="${post.id}">Delete</button>
                 </div>
             `).join('');
-            // Attach event listeners
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.onclick = () => deletePost(btn.getAttribute('data-id'));
-            });
-            document.querySelectorAll('.edit-btn').forEach(btn => {
-                btn.onclick = () => openEditModal(btn.getAttribute('data-id'));
-            });
-            document.querySelectorAll('.like-btn').forEach(btn => {
-                btn.onclick = async () => {
-                    const postId = btn.getAttribute('data-id');
-                    await fetch(`${BASE_URL}/${postId}/like`, { method: 'POST', credentials: 'include' });
-                    loadMyPosts();
-                };
-            });
-            document.querySelectorAll('.comment-btn').forEach(btn => {
-                btn.onclick = async () => {
-                    const postId = btn.getAttribute('data-id');
-                    const commentText = document.getElementById(`comment-input-${postId}`).value;
-                    if (!commentText.trim()) return;
-                    await fetch(`${BASE_URL}/${postId}/comment`, {
-                        method: 'POST',
-                        credentials: 'include',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ text: commentText })
-                    });
-                    loadMyPosts();
-                };
-            });
         } catch (error) {
-            document.getElementById('postsList').innerHTML = '<div class="alert alert-danger">Failed to load posts.</div>';
+            document.getElementById('postsList').innerHTML = `<div class="alert alert-danger">Failed to load your posts.</div>`;
         }
     }
 
-    // Create a new post
-    document.getElementById('postForm').addEventListener('submit', async (e) => {
+    document.getElementById('postForm').addEventListener('submit', async function(e){
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('post', new Blob([JSON.stringify({
-            title: document.getElementById('title').value,
-            content: document.getElementById('content').value,
-            author: document.getElementById('author').value,
-            createdDate: new Date().toISOString()
-        })], { type: 'application/json' }));
-        const imageInput = document.getElementById('image');
-        if (imageInput.files[0]) {
-            formData.append('image', imageInput.files[0]);
+        document.getElementById('postError').style.display = 'none';
+        document.getElementById('postSuccess').style.display = 'none';
+
+        const title = document.getElementById('title').value.trim();
+        const content = document.getElementById('content').value.trim();
+        const image = document.getElementById('image').files[0];
+
+        if(!title || !content){
+            document.getElementById('postError').textContent = 'Title and content are required.';
+            document.getElementById('postError').style.display = 'block';
+            return;
         }
+
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('createdDate', new Date().toISOString());
+        if(image) formData.append('image', image);
+
         try {
             const response = await fetch(BASE_URL, {
                 method: 'POST',
-                credentials: 'include',
+                headers: getAuthHeaders(),   // ✅ include Authorization header
                 body: formData
             });
-            const data = await response.json();
-            document.getElementById('postError').style.display = 'none';
-            document.getElementById('postSuccess').textContent = data.message;
-            document.getElementById('postSuccess').style.display = 'block';
-            document.getElementById('postForm').reset();
-            loadMyPosts();
-        } catch (error) {
-            document.getElementById('postError').textContent = 'Failed to create post';
+            const result = await response.json();
+            if(response.ok){
+                document.getElementById('postSuccess').textContent = 'Post created successfully!';
+                document.getElementById('postSuccess').style.display = 'block';
+                document.getElementById('postForm').reset();
+                loadMyPosts();
+            } else {
+                document.getElementById('postError').textContent = result.message || 'Failed to create post.';
+                document.getElementById('postError').style.display = 'block';
+            }
+        } catch(err){
+            document.getElementById('postError').textContent = 'Error submitting post.';
             document.getElementById('postError').style.display = 'block';
         }
     });
 
-    // Delete a post
-    async function deletePost(id) {
-        if (!confirm('Are you sure you want to delete this post?')) return;
-        try {
-            const response = await fetch(`${BASE_URL}/${id}`, {
-                method: 'DELETE',
-                credentials: 'include'
-            });
-            await response.json();
-            loadMyPosts();
-        } catch {
-            alert('Failed to delete post');
-        }
-    }
-
-    // Edit post modal logic
-    let editModal = new bootstrap.Modal(document.getElementById('editModal'));
-    async function openEditModal(id) {
-        const response = await fetch(`${BASE_URL}/${id}`, { credentials: 'include' });
-        const data = await response.json();
-        const post = data.data;
-        document.getElementById('editPostId').value = post.id;
-        document.getElementById('editTitle').value = post.title;
-        document.getElementById('editContent').value = post.content;
-        document.getElementById('editImagePreview').innerHTML = post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image">` : '';
-        document.getElementById('editImage').value = '';
-        editModal.show();
-    }
-
-    // Handle edit post submit
-    document.getElementById('editPostForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const id = document.getElementById('editPostId').value;
-        const formData = new FormData();
-        formData.append('post', new Blob([JSON.stringify({
-            title: document.getElementById('editTitle').value,
-            content: document.getElementById('editContent').value,
-            createdDate: new Date().toISOString()
-        })], { type: 'application/json' }));
-        const imageInput = document.getElementById('editImage');
-        if (imageInput.files[0]) {
-            formData.append('image', imageInput.files[0]);
-        }
-        try {
-            await fetch(`${BASE_URL}/${id}`, {
-                method: 'PUT',
-                credentials: 'include',
-                body: formData
-            });
-            editModal.hide();
-            loadMyPosts();
-        } catch {
-            alert('Failed to update post');
-        }
+    document.getElementById('logoutBtn').addEventListener('click', function(){
+        localStorage.removeItem('token');
+        window.location.href = '/index.html';
     });
 
     document.addEventListener('DOMContentLoaded', loadMyPosts);

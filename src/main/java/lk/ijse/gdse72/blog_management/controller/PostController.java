@@ -1,5 +1,6 @@
 package lk.ijse.gdse72.blog_management.controller;
 
+import java.io.IOException; // FIXED
 import lk.ijse.gdse72.blog_management.dto.PostDTO;
 import lk.ijse.gdse72.blog_management.dto.CommentDTO;
 import lk.ijse.gdse72.blog_management.dto.LikeDTO;
@@ -22,6 +23,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.List;
@@ -119,4 +124,44 @@ public class PostController {
         boolean hasLiked = user != null && likeRepository.findByUserAndPost(user, post).isPresent();
         return ResponseEntity.ok(new APIResponse<>(200, "Like status retrieved", hasLiked));
     }
+    @PostMapping
+    public ResponseEntity<?> createPost(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            Authentication authentication
+    ) {
+        if (authentication == null || authentication.getName() == null) {
+            return ResponseEntity.status(401).body("User not authenticated");
+        }
+
+        User user = userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResourceNotFound("User not found"));
+
+        Post post = new Post();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setAuthor(user.getName());
+        post.setCreatedDate(LocalDateTime.now());
+        post.setStatus(PostStatus.PENDING); // make sure PENDING exists in enum
+        post.setUser(user);
+
+        // Handle image upload
+        if (image != null && !image.isEmpty()) {
+            String filename = System.currentTimeMillis() + "_" + image.getOriginalFilename();
+            try {
+                Path uploadPath = Paths.get("uploads");
+                if(!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
+                image.transferTo(uploadPath.resolve(filename));
+                post.setImagePath(filename);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResponseEntity.status(500).body("Failed to save image");
+            }
+        }
+
+        postRepository.save(post);
+        return ResponseEntity.ok(post);
+    }
+
 }
