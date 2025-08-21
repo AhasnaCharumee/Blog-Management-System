@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Optional;
 import java.util.List;
 
@@ -162,6 +163,16 @@ public class PostController {
 
         postRepository.save(post);
         return ResponseEntity.ok(post);
+    }
+    @GetMapping("/me/interaction-stats")
+    public ResponseEntity<APIResponse<Map<String, Object>>> getUserPostInteractionStats(Authentication auth) {
+        if (auth == null || auth.getName() == null) {
+            return ResponseEntity.status(401).body(new APIResponse<>(401, "User not authenticated", null));
+        }
+        User user = userRepository.findByEmail(auth.getName())
+                .orElseThrow(() -> new ResourceNotFound("User not found with email: " + auth.getName()));
+        Map<String, Object> stats = postService.getUserPostInteractionStats(user);
+        return ResponseEntity.ok(new APIResponse<>(200, "Interaction stats retrieved successfully", stats));
     }
 
 }

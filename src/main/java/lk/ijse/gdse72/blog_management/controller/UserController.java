@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -83,4 +84,11 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update profile");
         }
     }
+    // File: src/main/java/lk/ijse/gdse72/blog_management/controller/UserController.java
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return userRepository.findAll(); // JSON list of users return wenawa
+    }
+
 }

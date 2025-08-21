@@ -5,11 +5,12 @@ import lk.ijse.gdse72.blog_management.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PostService {
     PostDTO createPost(PostDTO postDTO, MultipartFile image, User user);
 
-
+    Map<String, Object> getUserPostInteractionStats(User user);
 
     List<PostDTO> getAllPosts();
 

@@ -50,7 +50,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/index.html")
+                        .logoutSuccessUrl("/src/main/resources/templates/index.html/index.html")
                 );
 
         return http.build();

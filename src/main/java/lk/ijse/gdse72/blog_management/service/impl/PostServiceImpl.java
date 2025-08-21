@@ -7,6 +7,7 @@ import lk.ijse.gdse72.blog_management.entity.PostStatus;
 import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.repository.PostRepository;
 import lk.ijse.gdse72.blog_management.repository.UserRepository;
+import lk.ijse.gdse72.blog_management.service.EmailService;
 import lk.ijse.gdse72.blog_management.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,6 +30,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final EmailService emailService;
 
     private final String uploadDir = "uploads/";
 
@@ -94,6 +98,17 @@ public class PostServiceImpl implements PostService {
                 .orElseThrow(() -> new EntityNotFoundException("Post not found"));
         post.setStatus(PostStatus.APPROVED);
         postRepository.save(post);
+
+        // Send email notification to the post owner
+        if (post.getUser() != null && post.getUser().getEmail() != null) {
+            String email = post.getUser().getEmail();
+            String subject = "Your Post is Approved!";
+            String message = "Hello " + post.getUser().getName() + ",\n\n" +
+                    "Your post titled \"" + post.getTitle() + "\" has been approved and is now live on BlogSphere.\n\n" +
+                    "Best Regards,\nBlogSphere Team";
+            emailService.sendLoginSuccessEmail(email, subject, message);
+        }
+
         return toDTO(post);
     }
 
@@ -147,5 +162,18 @@ public class PostServiceImpl implements PostService {
                 post.getLikes(),
                 post.getCommentsCount()
         );
+    }
+    @Override
+    public Map<String, Object> getUserPostInteractionStats(User user) {
+        List<Post> userPosts = postRepository.findByUser(user);
+        int totalLikes = userPosts.stream().mapToInt(Post::getLikes).sum();
+        int totalComments = userPosts.stream().mapToInt(Post::getCommentsCount).sum();
+        int totalViews = userPosts.stream().mapToInt(Post::getViews).sum();
+
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalLikes", totalLikes);
+        stats.put("totalComments", totalComments);
+        stats.put("totalViews", totalViews);
+        return stats;
     }
 }

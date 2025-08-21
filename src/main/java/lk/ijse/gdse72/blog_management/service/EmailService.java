@@ -20,4 +20,11 @@ public class EmailService {
         message.setText("Hello " + name + ",\n\nYou have successfully logged into the system.\n\nBest Regards,\nYour App Team");
         mailSender.send(message);
     }
+    public void sendLoginSuccessEmail(String toEmail, String subject, String messageText) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(messageText);
+        mailSender.send(message);
+    }
 }
