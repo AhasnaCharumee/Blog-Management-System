@@ -8,68 +8,137 @@
 
     <style>
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
             color: #e0e0e0;
         }
+
+        /* floating background glow */
+        body::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                    from 180deg at 50% 50%,
+                    #fd6537,
+                    #ff9966,
+                    #2d2d2d,
+                    #1a1a1a,
+                    #fd6537
+            );
+            animation: spin 18s linear infinite;
+            opacity: 0.15;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
         .container {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(16px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
             text-align: center;
             width: 100%;
             max-width: 400px;
+            z-index: 1;
+            animation: fadeIn 1.2s ease;
         }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         h1 {
             font-size: 2rem;
             margin-bottom: 1.5rem;
-            color: #fff;
+            color: #fd6537;
+            font-weight: 700;
         }
+
         button {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
-            background: #fff;
-            color: #444;
+            background: linear-gradient(135deg, #fd6537, #ff9966);
+            color: #fff;
             border: none;
-            border-radius: 8px;
-            padding: 12px 24px;
+            border-radius: 12px;
+            padding: 14px 24px;
             font-size: 16px;
-            font-weight: 500;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(253, 101, 55, 0.35);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
             width: 100%;
             cursor: pointer;
         }
+
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(253, 101, 55, 0.5);
         }
+
         button svg {
             width: 20px;
             height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 2px;
         }
+
         a {
-            color: #4285f4;
+            color: #ff844a;
             text-decoration: none;
             font-weight: 500;
+            transition: color 0.2s ease;
         }
+
         a:hover {
+            color: #ffaa82;
             text-decoration: underline;
         }
+
         p {
             font-size: 0.9rem;
             margin: 1rem 0;
             line-height: 1.5;
         }
+
+        img {
+            max-width: 60%;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
     </style>
+
     <script>
         function openGoogleLogin() {
             window.open(
@@ -83,10 +152,10 @@
 </head>
 <body>
 <div class="container">
-    <div><img src="/front_end/images/download.png.png" style="max-width: 50%"></div>
+    <div><img src="/front_end/images/download.png.png" alt="BlogSphere Logo"></div>
     <h1>Join BlogSphere</h1>
     <button onclick="openGoogleLogin()">
-        <svg width="20" height="20" viewBox="0 0 48 48">
+        <svg viewBox="0 0 48 48">
             <g>
                 <path fill="#4285F4" d="M44.5 20H24v8.5h11.7C34.7 33.1 30.1 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.1 8.1 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-.1-2.7-.2-4z"/>
                 <path fill="#34A853" d="M6.3 14.7l7 5.1C15.5 16.1 19.4 13 24 13c3.1 0 5.9 1.1 8.1 2.9l6.1-6.1C34.5 6.5 29.6 4 24 4c-7.2 0-13.4 4.1-16.7 10.7z"/>

@@ -11,349 +11,133 @@
     <link rel="icon" href="/front_end/images/download.png.png" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Source Sans Pro', sans-serif; line-height:1.6; transition:all 0.3s ease; }
+        body.light-mode { background: linear-gradient(135deg, #FFE5B4 0%, #FFAB76 100%); color:#2d3748; }
+        body.dark-mode { background: linear-gradient(135deg, #2C1E0A 0%, #4D3319 50%, #6E482B 100%); color:#fff; }
 
-        body {
-            font-family: 'Source Sans Pro', sans-serif;
-            line-height: 1.6;
-            transition: all 0.3s ease;
-        }
-
-        /* Enhanced glassmorphism theme system */
-        body.light-mode {
-            background: linear-gradient(135deg, #FFDAB9 0%, #FFA07A 100%);
-            color: #2d3748;
-        }
-
-        body.dark-mode {
-            background: linear-gradient(135deg, #2C1E0A 0%, #4D3319 50%, #6E482B 100%);
-            color: #e2e8f0;
-        }
-
-        /* Glassmorphism navbar with enhanced blur effects */
         .navbar-custom {
-            background: rgba(15, 15, 35, 0.85);
+            background: rgba(20,20,20,0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(255,140,0,0.2);
+            box-shadow:0 8px 32px rgba(0,0,0,0.3);
             position: sticky;
-            top: 0;
-            z-index: 1000;
+            top:0;
+            z-index:1000;
         }
+        .navbar-brand { font-family:'Playfair Display', serif; font-weight:700; font-size:1.5rem; color:#FFA500 !important; }
 
-        .navbar-brand {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.5rem;
-            color: #ea824b !important;
-        }
-
-        /* Enhanced button styles with glassmorphism */
         .btn-nav {
-            background: linear-gradient(135deg, #FF8C00, #D2691E);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff !important;
-            padding: 10px 20px;
-            border-radius: 12px;
-            font-weight: 600;
+            background: linear-gradient(135deg,#FFA500,#FF8C00);
+            border:none;
+            color:#fff !important;
+            padding:10px 20px;
+            border-radius:12px;
+            font-weight:600;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+            box-shadow:0 4px 15px rgba(255,140,0,0.3);
         }
-
-        .btn-nav:hover {
-            background: linear-gradient(135deg, #D2691E, #A0522D);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
-        }
+        .btn-nav:hover { background: linear-gradient(135deg,#FF8C00,#FF7F50); transform:translateY(-2px); box-shadow:0 8px 25px rgba(255,140,0,0.5); }
 
         .btn-logout {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444 !important;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: 12px;
-            padding: 10px 20px;
-            font-weight: 600;
+            background: rgba(255,69,0,0.2);
+            color:#FF4500 !important;
+            border:1px solid rgba(255,69,0,0.3);
+            border-radius:12px;
+            padding:10px 20px;
+            font-weight:600;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
         }
-
-        .btn-logout:hover {
-            background: rgba(239, 68, 68, 0.3);
-            color: #fff !important;
-            transform: translateY(-2px);
-        }
+        .btn-logout:hover { background: rgba(255,69,0,0.3); color:#fff !important; transform:translateY(-2px); }
 
         .btn-toggle {
-            background: rgba(107, 114, 128, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            padding: 8px 16px;
-            color: #fff;
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .btn-toggle:hover {
-            background: rgba(107, 114, 128, 0.5);
-            transform: scale(1.05);
-        }
-
-        /* Enhanced glassmorphism section cards */
-        .section-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-            padding: 2.5rem;
-            margin-bottom: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-        }
-
-        .section-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 140, 0, 0.3);
-        }
-
-        /* Enhanced profile image with glassmorphism border */
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 140, 0, 0.6);
-            object-fit: cover;
-            box-shadow: 0 8px 32px rgba(255, 140, 0, 0.3);
+            background: rgba(107,114,128,0.3);
+            border:1px solid rgba(255,255,255,0.2);
+            border-radius:12px;
+            padding:8px 16px;
+            color:#fff;
+            font-size:1.2rem;
             transition: all 0.3s ease;
         }
-
-        .profile-img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 12px 40px rgba(255, 140, 0, 0.4);
-        }
-
-        /* Enhanced post cards with glassmorphism */
-        .post-card {
-            background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            padding: 1.5rem;
-            margin: 1rem auto;
-            width: 100%;
-            max-width: 400px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-
-        .post-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 140, 0, 0.2);
-        }
-
-        .post-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .post-header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 12px;
-            border: 2px solid rgba(255, 140, 0, 0.3);
-        }
-
-        .post-header .username {
-            font-weight: 600;
-            color: #FF8C00;
-            font-size: 0.95rem;
-        }
-
-        .post-header .date {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 2px;
-        }
-
-        .post-content {
-            margin: 1rem 0;
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .post-image {
-            width: 100%;
-            max-height: 250px;
-            object-fit: cover;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            margin: 1rem 0;
-        }
-
-        .post-footer {
-            display: flex;
-            justify-content: space-around;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
-        }
-
-        .post-footer span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: rgba(255, 255, 255, 0.8);
-            transition: color 0.3s ease;
-        }
-
-        .post-footer span:hover {
-            color: #FF8C00;
-        }
-
-        /* Enhanced modal styling */
-        .modal-content {
-            background: rgba(15, 15, 35, 0.95) !important;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-header {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-        }
-
-        .modal-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            color: #FF8C00;
-        }
-
-        .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 12px;
-            color: #fff;
-            padding: 12px 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #FF8C00;
-            box-shadow: 0 0 0 0.2rem rgba(255, 140, 0, 0.25);
-            color: #fff;
-        }
-
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .form-label {
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-
-        /* Typography enhancements */
-        h3, h4, h5 {
-            font-family: 'Playfair Display', serif;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        h3 {
-            color: #FF8C00;
-            font-size: 1.8rem;
-        }
-
-        h4 {
-            color: #FF8C00;
-            font-size: 1.5rem;
-        }
-
-        h5 {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-        }
-
-        /* Chart container styling */
-        canvas {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 10px;
-        }
-
-        /* Responsive design enhancements */
-        @media (max-width: 768px) {
-            .section-card {
-                padding: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-
-            .post-card {
-                margin: 0.5rem auto;
-                padding: 1rem;
-            }
-
-            .navbar-custom .d-flex {
-                flex-wrap: wrap;
-                gap: 0.5rem;
-            }
-
-            .btn-nav, .btn-logout, .btn-toggle {
-                padding: 8px 12px;
-                font-size: 0.9rem;
-            }
-        }
-
-        /* Animation keyframes */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .btn-toggle:hover { background: rgba(107,114,128,0.5); transform: scale(1.05); }
 
         .section-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border:1px solid rgba(255,140,0,0.2);
+            border-radius:24px;
+            box-shadow:0 12px 40px rgba(0,0,0,0.2);
+            padding:2.5rem;
+            margin-bottom:2rem;
+            transition:all 0.3s ease;
+            position:relative;
+            overflow:hidden;
             animation: fadeInUp 0.6s ease-out;
         }
+        .section-card:hover { transform: translateY(-5px); box-shadow:0 20px 60px rgba(0,0,0,0.3); border-color: rgba(255,140,0,0.3); }
+
+        .profile-img {
+            width:120px;
+            height:120px;
+            border-radius:50%;
+            border:3px solid rgba(255,140,0,0.6);
+            object-fit:cover;
+            box-shadow:0 8px 32px rgba(255,140,0,0.3);
+            transition: all 0.3s ease;
+        }
+        .profile-img:hover { transform: scale(1.05); box-shadow:0 12px 40px rgba(255,140,0,0.5); }
 
         .post-card {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border:1px solid rgba(255,140,0,0.2);
+            border-radius:16px;
+            box-shadow:0 8px 32px rgba(0,0,0,0.2);
+            padding:1.5rem;
+            margin:1rem auto;
+            max-width:400px;
+            transition:all 0.3s ease;
             animation: fadeInUp 0.4s ease-out;
         }
+        .post-card:hover { transform:translateY(-3px); box-shadow:0 12px 40px rgba(0,0,0,0.3); border-color: rgba(255,165,0,0.3); }
+
+        .post-header img { width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:12px; border:2px solid rgba(255,140,0,0.3); }
+        .post-header .username { font-weight:600; color:#FFA500; }
+        .post-header .date { font-size:0.8rem; color: rgba(255,255,255,0.6); margin-top:2px; }
+
+        .post-content { margin:1rem 0; line-height:1.6; font-size:0.95rem; }
+        .post-image { width:100%; max-height:250px; object-fit:cover; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.3); margin:1rem 0; }
+        .post-footer span { display:flex; align-items:center; gap:5px; color: rgba(255,255,255,0.8); transition:color 0.3s ease; }
+        .post-footer span:hover { color:#FFA500; }
+
+        .modal-content {
+            background: rgba(20,20,20,0.95) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border:1px solid rgba(255,140,0,0.2);
+            border-radius:20px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.5);
+        }
+        .modal-title { font-family:'Playfair Display', serif; font-weight:600; color:#FFA500; }
+        .form-control {
+            background: rgba(255,255,255,0.1);
+            border:1px solid rgba(255,140,0,0.3);
+            border-radius:12px;
+            color:#fff;
+            padding:12px 16px;
+        }
+        .form-control:focus { background: rgba(255,255,255,0.15); border-color:#FFA500; box-shadow:0 0 0 0.2rem rgba(255,140,0,0.25); color:#fff; }
+        .form-label { color: rgba(255,255,255,0.9); font-weight:500; }
+
+        h3,h4,h5 { font-family:'Playfair Display', serif; font-weight:600; }
+        h3 { color:#FFA500; } h4 { color:#FFA500; } h5 { color: rgba(255,255,255,0.9); }
+
+        @media(max-width:768px){ .section-card{padding:1.5rem;} .post-card{padding:1rem;margin:0.5rem auto;} .navbar-custom .d-flex{flex-wrap:wrap;gap:0.5rem;} .btn-nav,.btn-logout,.btn-toggle{padding:8px 12px;font-size:0.9rem;} }
+
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
     </style>
 </head>
 <body class="dark-mode">
@@ -361,8 +145,7 @@
 <nav class="navbar navbar-expand-lg navbar-custom mb-4">
     <div class="container-fluid">
         <a class="navbar-brand text-light" href="/index.html">
-            <img src="/front_end/images/download.png.png" alt="BlogSphere Icon" width="32" class="me-2">
-            BlogSphere
+            <img src="/front_end/images/download.png.png" alt="BlogSphere Icon" width="32" class="me-2">BlogSphere
         </a>
         <div class="d-flex">
             <a href="/post.html" class="btn btn-nav me-2">+ Create Post</a>
@@ -379,8 +162,8 @@
     <div class="section-card text-center">
         <img id="profileImage" class="profile-img mb-3" src="/uploads/default.png" alt="Profile">
         <h3 id="userName">User Name</h3>
-        <p id="userEmail" style="color: rgba(255, 255, 255, 0.8); font-size: 1.1rem;">user@email.com</p>
-        <p id="userBio" style="color: rgba(255, 255, 255, 0.7); font-style: italic;"></p>
+        <p id="userEmail" style="color: rgba(255,255,255,0.8); font-size:1.1rem;">user@email.com</p>
+        <p id="userBio" style="color: rgba(255,255,255,0.7); font-style: italic;"></p>
         <button class="btn btn-nav mt-3" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profile</button>
     </div>
 
@@ -448,13 +231,12 @@
         document.body.classList.toggle('dark-mode');
         document.getElementById('darkToggle').textContent =
             document.body.classList.contains('light-mode') ? "☀️" : "🌙";
-
         localStorage.setItem('theme', document.body.classList.contains('light-mode') ? 'light' : 'dark');
     });
 
     window.addEventListener('load', () => {
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'light') {
+        if(savedTheme === 'light'){
             document.body.classList.remove('dark-mode');
             document.body.classList.add('light-mode');
             document.getElementById('darkToggle').textContent = "☀️";
