@@ -10,6 +10,8 @@ import lk.ijse.gdse72.blog_management.repository.UserRepository;
 import lk.ijse.gdse72.blog_management.service.EmailService;
 import lk.ijse.gdse72.blog_management.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -175,5 +177,11 @@ public class PostServiceImpl implements PostService {
         stats.put("totalComments", totalComments);
         stats.put("totalViews", totalViews);
         return stats;
+    }
+
+    @Override
+    public Page<PostDTO> searchPostsByTitle(String title, Pageable pageable) {
+        return postRepository.findByTitleContainingIgnoreCase(title, pageable)
+                .map(this::toDTO);
     }
 }

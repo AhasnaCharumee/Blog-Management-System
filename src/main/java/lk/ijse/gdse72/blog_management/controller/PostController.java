@@ -18,6 +18,8 @@ import lk.ijse.gdse72.blog_management.service.LikeService;
 import lk.ijse.gdse72.blog_management.utility.APIResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -174,5 +176,13 @@ public class PostController {
         Map<String, Object> stats = postService.getUserPostInteractionStats(user);
         return ResponseEntity.ok(new APIResponse<>(200, "Interaction stats retrieved successfully", stats));
     }
-
+    @GetMapping("/search")
+    public ResponseEntity<APIResponse<Page<PostDTO>>> searchPosts(
+            @RequestParam(value = "title", required = false, defaultValue = "") String title,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        Page<PostDTO> posts = postService.searchPostsByTitle(title, PageRequest.of(page, size));
+        return ResponseEntity.ok(new APIResponse<>(200, "Posts retrieved successfully", posts));
+    }
 }
