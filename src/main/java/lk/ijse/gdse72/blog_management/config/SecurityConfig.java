@@ -36,21 +36,23 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
+                        .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
-                        .requestMatchers("/login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
+                        .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
                         .requestMatchers("/api/chat/**").permitAll()
+
+                        .requestMatchers("/my_account.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/login.html")
+                        .loginPage("/Login.html")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(customAuthenticationSuccessHandler())
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/src/main/resources/templates/index.html/index.html")
+                        .logoutSuccessUrl("/Index.html")
                 );
 
         return http.build();

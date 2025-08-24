@@ -11,14 +11,20 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // Images first
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/images/");
+
+        // Uploads
         String uploadPath = "file:" + System.getProperty("user.dir") + "/uploads/";
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadPath);
 
-        // Map all static resources, including HTML files, from /static/
+        // Pages (HTML etc.)
         registry.addResourceHandler("/**")
-                .addResourceLocations("classpath:/static/");
+                .addResourceLocations("file:C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/");
     }
+
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

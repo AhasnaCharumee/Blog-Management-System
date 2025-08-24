@@ -152,7 +152,7 @@
             <a href="/published-posts.html" class="btn btn-nav me-2">All Posts</a>
             <button id="darkToggle" class="btn btn-toggle me-2">🌙</button>
             <form action="/logout" method="post" style="display:inline;">
-                <button type="submit" class="btn btn-logout">Logout</button>
+                <button id="logoutButton" class="btn btn-logout">Logout</button>
             </form>
         </div>
     </div>
@@ -265,7 +265,18 @@
             populateUserData(mockUser);
         }
     }
-
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+        try {
+            const response = await fetch('/logout', { method: 'POST', credentials: 'include' });
+            if (response.ok) {
+                window.location.href = '/index.html'; // Redirect to index.html
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    });
     function populateUserData(user) {
         document.getElementById('userId').value = user.id;
         document.getElementById('name').value = user.name;

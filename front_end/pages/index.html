@@ -546,7 +546,7 @@
 
 
             <div class="hd-cta">
-                <a href="login.html">
+                <a href="Login.html" style="text-decoration: none">
                     <button class="hd-ct-1">Login</button>
                 </a> <!--                <a href="http://localhost:8080/oauth2/authorization/google" class="btn btn-danger">-->
 <!--               <button class="hd-ct-2">Register</button></a>        -->
@@ -564,21 +564,10 @@
                     ❝ Dive into a world of stories—discover inspiring articles, expert insights, and the latest trends today! ❞
                 </p>
 
-                <div class="hr-actions">
-                    <select name="category" id="category">
-                        <option value="" disabled selected>Select a category</option>
-                        <option value="technology">Technology</option>
-                        <option value="travel">Travel</option>
-                        <option value="lifestyle">Lifestyle</option>
-                        <option value="food">Food</option>
-                        <option value="health">Health</option>
-                    </select>
 
-                    <button>Search</button>
-                </div>
             </div>
             <div class="ct-right">
-                <img src="/front_end/images/image.jpg.png" alt="Blog Illustration">
+                <img src="/front_end/images/first.png" alt="Blog Illustration">
             </div>
         </div>
     </div>
@@ -597,12 +586,12 @@
 
         <div class="ds-content">
             <div class="ds-card crd-1">
-                <img src="im/d1.jpg" alt="Blog Post 1">
+
                 <h3 class="ds-crd-title">The Future of AI</h3>
                 <div>
                     <p class="price">By John Doe</p>
-                    <button class="crd-btn">Read More</button>
-                </div>
+                    <button class="crd-btn"
+                    ><a href="register.html" style="    text-decoration: none;">Read More</a></button>                </div>
                 <p class="ds-rate">
                     <i class="fa-solid fa-star"></i>
                     4.8
@@ -610,12 +599,12 @@
             </div>
 
             <div class="ds-card crd-2">
-                <img src="im/d2.jpg" alt="Blog Post 2">
+
                 <h3 class="ds-crd-title">Travel Tips for 2025</h3>
                 <div>
                     <p class="price">By Jane Smith</p>
-                    <button class="crd-btn">Read More</button>
-                </div>
+                    <button class="crd-btn"
+                    ><a href="register.html" style="    text-decoration: none;">Read More</a></button>                </div>
                 <p class="ds-rate">
                     <i class="fa-solid fa-star"></i>
                     4.6
@@ -623,11 +612,11 @@
             </div>
 
             <div class="ds-card crd-3">
-                <img src="im/d3.jpg" alt="Blog Post 3">
                 <h3 class="ds-crd-title">Healthy Eating Habits</h3>
                 <div>
                     <p class="price">By Emily Brown</p>
-                    <button class="crd-btn">Read More</button>
+                    <button class="crd-btn"
+><a href="register.html" style="    text-decoration: none;">Read More</a></button>
                 </div>
                 <p class="ds-rate">
                     <i class="fa-solid fa-star"></i>
@@ -636,7 +625,7 @@
             </div>
         </div>
 
-        <button class="ds-btn">See all Posts</button>
+        <button  class="ds-btn"><a href="register.html">See all Posts</a></button>
     </div>
 </section>
 
@@ -681,10 +670,10 @@
                 <h2 class="section-title">Contact <span>us</span></h2>
 
                 <form>
-                    <input type="text" placeholder="Your name" spellcheck="false" class="name">
-                    <input type="text" placeholder="Your email" spellcheck="false" class="email">
-                    <input type="text" placeholder="Phone number" spellcheck="false" class="pn">
-                    <input type="submit" value="Send" class="send">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="text" placeholder="Phone Number" required>
+                    <input type="submit" value="Send Message" class="send">
                 </form>
             </div>
 
