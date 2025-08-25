@@ -3,6 +3,9 @@ package lk.ijse.gdse72.blog_management.controller;
 import lk.ijse.gdse72.blog_management.dto.UserDTO;
 import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.repository.UserRepository;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -12,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,6 +93,23 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return userRepository.findAll(); // JSON list of users return wenawa
+    }
+    // Delete user
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+
+        userRepository.deleteById(id);
+        return ResponseEntity.ok("User deleted successfully");
+    }
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<Resource> serveImage(@PathVariable String filename) throws MalformedURLException {
+        File file = new File(UPLOAD_DIR + filename);
+        if (!file.exists()) return ResponseEntity.notFound().build();
+
+        UrlResource resource = new UrlResource(file.toURI());
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(resource);
     }
 
 }

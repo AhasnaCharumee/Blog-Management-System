@@ -36,8 +36,9 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
+
+                        .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
                         .requestMatchers("/api/chat/**").permitAll()

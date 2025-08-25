@@ -18,20 +18,12 @@ public class AuthController {
 
     private static final String ADMIN_EMAIL = "admin@example.com";
     private static final String ADMIN_PASSWORD = "password123";
-
     @PostMapping("/login")
     public ResponseEntity<APIResponse<String>> login(@RequestBody Map<String, String> loginRequest, HttpServletResponse response) {
         String email = loginRequest.get("email");
         String password = loginRequest.get("password");
 
-        System.out.println("Received login request for email: " + email);
-
-        if (email == null || password == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new APIResponse<>(400, "Email and password are required", null));
-        }
-
-        if (ADMIN_EMAIL.equals(email) && ADMIN_PASSWORD.equals(password)) {
+        if(ADMIN_EMAIL.equals(email) && ADMIN_PASSWORD.equals(password)) {
             String jwtToken = JwtUtil.generateToken(email);
             response.addHeader("Authorization", "Bearer " + jwtToken);
             return ResponseEntity.ok(new APIResponse<>(200, "Login successful", jwtToken));
