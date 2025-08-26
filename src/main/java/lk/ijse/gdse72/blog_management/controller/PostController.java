@@ -185,4 +185,25 @@ public class PostController {
         Page<PostDTO> posts = postService.searchPostsByTitle(title, PageRequest.of(page, size));
         return ResponseEntity.ok(new APIResponse<>(200, "Posts retrieved successfully", posts));
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse<PostDTO>> updatePost(
+            @PathVariable Long id,
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam(value = "image", required = false) MultipartFile image
+    ) {
+        PostDTO dto = new PostDTO();
+        dto.setTitle(title);
+        dto.setContent(content);
+
+        PostDTO updated = postService.updatePost(id, dto, image);
+        return ResponseEntity.ok(new APIResponse<>(200, "Post updated successfully", updated));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse<Void>> deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return ResponseEntity.ok(new APIResponse<>(200, "Post deleted successfully", null));
+    }
+
 }

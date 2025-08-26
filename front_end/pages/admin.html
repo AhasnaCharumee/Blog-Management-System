@@ -16,7 +16,7 @@
       font-family: Arial, Helvetica, sans-serif;
     }
     #localDateTime {
-      font-size: 1.2rem;
+      font-size: 1rem;
       font-weight: bold;
       color: #FFA500;
       background: rgba(255, 255, 255, 0.1);
@@ -161,6 +161,7 @@
       padding: 0 15px;
       cursor: pointer;
     }
+
   </style>
 </head>
 <body>
@@ -172,14 +173,12 @@
         BlogSphere Admin
       </a>
       <div class="d-flex">
-        <a href="http://localhost:8080/published-posts.html" class="btn btn-nav">
-          <i class="fa-solid fa-list"></i> Published Posts
-        </a>
-<!--        <form action="/logout" method="post" style="display:inline;">-->
-          <button type="submit" class="btn btn-logout"><a href="index.html" style=" text-decoration: none;">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-          </button>
-<!--        </form>-->
+
+        <!--        <form action="/logout" method="post" style="display:inline;">-->
+        <button type="submit" class="btn btn-logout"><a href="index.html" style=" text-decoration: none;" id="logoutButton">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </button>
+        <!--        </form>-->
       </div>
     </div>
   </nav>
@@ -189,7 +188,7 @@
         <h4 class="text-center py-3">Admin Panel</h4>
         <ul class="nav flex-column">
           <li class="nav-item"><a class="nav-link text-white" href="user.html">👤 Users</a></li>
-          <li class="nav-item"><a class="nav-link text-white" href="published-posts.html">📝 Posts</a></li>
+          <li class="nav-item"><a class="nav-link text-white" href="post_collection.html">📝 Posts</a></li>
         </ul>
         <div class="mt-5 px-3">
           <hr class="text-white"/>
@@ -482,6 +481,27 @@
       console.error("Failed to reject post:", error);
     }
   }
+  document.getElementById('logoutButton').addEventListener('click', async () => {
+    try {
+      // Clear JWT token from localStorage
+      localStorage.removeItem('token');
+
+      // Call Spring Security logout endpoint
+      const response = await fetch('/logout', {
+        method: 'POST',
+        credentials: 'include' // important to include cookies/session
+      });
+
+      if (response.ok) {
+        // Redirect to index.html after logout
+        window.location.href = '/index.html';
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  });
 
   // Chatbot functions
   function toggleChat() {

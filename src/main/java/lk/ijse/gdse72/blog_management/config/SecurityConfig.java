@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
-
+                        .requestMatchers("/images/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()

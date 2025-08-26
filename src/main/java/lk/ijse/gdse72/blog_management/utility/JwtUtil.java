@@ -12,7 +12,7 @@ public class JwtUtil {
     private static final String SECRET = "my-super-secret-key-for-jwt-which-should-be-long-enough";
     private static final Key key = Keys.hmacShaKeyFor(SECRET.getBytes());
 
-    private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION = 1000 * 60 * 60*24*24; // 1 hour
 
     // Generate JWT Token
     public static String generateToken(String username) {

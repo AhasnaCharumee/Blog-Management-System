@@ -15,16 +15,19 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobuleExceptionHandler {
 
-
-    // You can also handle generic exceptions like this:
-    @ExceptionHandler(Exception.class)// This will catch all exceptions that are not handled by more specific handlers
-    public ResponseEntity<APIResponse<String>> handleGenaricExeption(Exception exception) {
-        return new ResponseEntity<>(new APIResponse<>(
-                500,
-                //  HttpStatus.INTERNAL_SERVER_ERROR.value()--> 500 wenuwata danna puluwan
-                exception.getMessage(),
-                null),HttpStatus.INTERNAL_SERVER_ERROR);
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<APIResponse<String>> handleGenaricExeption(Exception ex) {
+        APIResponse<String> response = new APIResponse<>(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "An error occurred: " + ex.getMessage(),
+                null
+        );
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .header("Content-Type", "application/json")
+                .body(response);
     }
+    // You can also handle generic exceptions like this:
+
     @ExceptionHandler(ResourceNotFound.class)
     public ResponseEntity<APIResponse<String>> handleResourceNotFound(ResourceNotFound exception) {
         return new ResponseEntity<>(new APIResponse<>(

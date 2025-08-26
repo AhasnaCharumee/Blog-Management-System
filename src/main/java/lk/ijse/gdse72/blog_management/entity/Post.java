@@ -3,6 +3,8 @@ package lk.ijse.gdse72.blog_management.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -39,6 +41,10 @@ public class Post {
     private int views;
     private int likes;
     private int commentsCount;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Like> like = new ArrayList<>();
 
     // Add this line
 }// src/main/java/lk/ijse/gdse72/blog_management/entity/Post.java
