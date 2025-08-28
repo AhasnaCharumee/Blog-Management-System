@@ -1,10 +1,13 @@
 package lk.ijse.gdse72.blog_management.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lk.ijse.gdse72.blog_management.service.CustomOAuth2UserService;
 import lk.ijse.gdse72.blog_management.service.EmailService;
+import lk.ijse.gdse72.blog_management.utility.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -28,7 +31,6 @@ public class SecurityConfig {
         this.emailService = emailService;
     }
 
-    // Security filter chain
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -36,14 +38,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/users/me").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
                         .requestMatchers("/images/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
                         .requestMatchers("/api/chat/**").permitAll()
-
-                        .requestMatchers("/my_account.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -53,19 +54,18 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/Index.html")
+                        .deleteCookies("JWT")
+                        .logoutSuccessUrl("/index.html")
                 );
 
         return http.build();
     }
 
-    // JWT filter bean
     @Bean
     public JwtTokenAuthenticationFilter jwtTokenAuthenticationFilter() {
         return new JwtTokenAuthenticationFilter();
     }
 
-    // CORS config
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -73,20 +73,37 @@ public class SecurityConfig {
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
-    // OAuth2 login success handler
     @Bean
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
             var oAuth2User = (org.springframework.security.oauth2.core.user.OAuth2User) authentication.getPrincipal();
             String email = oAuth2User.getAttribute("email");
-            String name = oAuth2User.getAttribute("name");
-            emailService.sendLoginSuccessEmail(email, name);
+            String name  = oAuth2User.getAttribute("name");
+
+            // Decide role (admin email → ROLE_ADMIN)
+            String role = "admin@example.com".equalsIgnoreCase(email) ? "ROLE_ADMIN" : "ROLE_USER";
+
+            // Generate JWT
+            String token = JwtUtil.generateToken(email, role);
+
+            ResponseCookie cookie = ResponseCookie.from("JWT", token)
+                    .httpOnly(true)
+                    .secure(false)   // true in production with HTTPS
+                    .path("/")
+                    .sameSite("Lax")
+                    .maxAge(60L * 60 * 24) // 1 day
+                    .build();
+
+            response.addHeader("Set-Cookie", cookie.toString());
+
+            // Send login email
+            try { emailService.sendLoginSuccessEmail(email, name != null ? name : email); } catch (Exception ignored) {}
+
             response.sendRedirect("/my_account.html");
         };
     }

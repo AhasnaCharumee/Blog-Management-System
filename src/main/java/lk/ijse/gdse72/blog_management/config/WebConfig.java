@@ -1,3 +1,4 @@
+// File: src/main/java/lk/ijse/gdse72/blog_management/config/WebConfig.java
 package lk.ijse.gdse72.blog_management.config;
 
 import org.springframework.context.annotation.Bean;
@@ -11,20 +12,16 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Images first
         registry.addResourceHandler("/images/**")
                 .addResourceLocations("file:C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/images/");
 
-        // Uploads
         String uploadPath = "file:" + System.getProperty("user.dir") + "/uploads/";
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations(uploadPath);
 
-        // Pages (HTML etc.)
         registry.addResourceHandler("/**")
                 .addResourceLocations("file:C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/");
     }
-
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -33,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:8080", "http://localhost:63342")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowCredentials(true);
             }
         };

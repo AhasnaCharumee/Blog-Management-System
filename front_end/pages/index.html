@@ -694,6 +694,44 @@
         <p class="copyrights">© BlogSphere 2025</p>
     </div>
 </section>
+<script>
+    const API_BASE = "http://localhost:8080/api/users"; // adjust to your API
+
+    // Check login status
+    async function checkLogin() {
+        try {
+            const res = await fetch(`${API_BASE}/me`, {
+                credentials: 'include'
+            });
+
+            if (res.ok) {
+                const user = await res.json();
+                console.log("Logged in user:", user);
+
+                // Optional: update button
+                const loginBtn = document.querySelector('.hd-ct-1');
+                if (loginBtn) {
+                    loginBtn.textContent = `Hello, ${user.name}`;
+                    loginBtn.disabled = true;
+                }
+
+                // Auto redirect to dashboard
+                window.location.href = "my_account.html";
+
+            } else {
+                // Not logged in → stay on index
+                console.log("User not logged in");
+            }
+        } catch (error) {
+            console.log("API unreachable or user not logged in");
+        }
+    }
+
+    // Run check immediately
+    checkLogin();
+
+</script>
+
 </body>
 
 </html>

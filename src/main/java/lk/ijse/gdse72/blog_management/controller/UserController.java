@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,13 +33,13 @@ public class UserController {
         if (!dir.exists()) dir.mkdirs(); // create folder if not exist
     }
 
-    // Get current logged-in user
     @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal OAuth2User principal) {
-        if (principal == null) return ResponseEntity.status(401).body(null);
+    public ResponseEntity<UserDTO> getCurrentUser() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) return ResponseEntity.status(401).build();
 
-        String email = principal.getAttribute("email");
-        if (email == null) return ResponseEntity.status(401).body(null);
+        String email = auth.getName(); // this works for JWT users
+        if (email == null) return ResponseEntity.status(401).build();
 
         return userRepository.findByEmail(email)
                 .map(u -> ResponseEntity.ok(new UserDTO(
@@ -48,7 +49,7 @@ public class UserController {
                         u.getBio(),
                         u.getProfileImagePath()
                 )))
-                .orElseGet(() -> ResponseEntity.status(404).body(null));
+                .orElseGet(() -> ResponseEntity.status(404).build());
     }
 
     // Update profile

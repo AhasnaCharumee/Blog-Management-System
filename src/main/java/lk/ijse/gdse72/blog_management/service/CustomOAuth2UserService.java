@@ -1,15 +1,12 @@
-
 package lk.ijse.gdse72.blog_management.service;
 
 import lk.ijse.gdse72.blog_management.entity.User;
 import lk.ijse.gdse72.blog_management.repository.UserRepository;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -18,34 +15,29 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private final EmailService emailService;
 
-    public CustomOAuth2UserService(UserRepository userRepository, EmailService emailService) {
+    public CustomOAuth2UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.emailService = emailService;
     }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
-        String email = oAuth2User.<String>getAttribute("email");
-        String name = oAuth2User.<String>getAttribute("name");
+        String email = oAuth2User.getAttribute("email");
+        String name  = oAuth2User.getAttribute("name");
 
+        if (email == null) {
+            throw new OAuth2AuthenticationException("Email not provided by provider");
+        }
+
+        // Auto-create user if not exists
         Optional<User> existingUser = userRepository.findByEmail(email);
-
         if (existingUser.isEmpty()) {
             User u = new User();
             u.setEmail(email);
-            u.setName(name);
+            u.setName(name != null ? name : email);
             userRepository.save(u);
-        }
-
-        // Send email after successful login
-        try {
-            emailService.sendLoginSuccessEmail(email, name);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
         return new DefaultOAuth2User(
@@ -54,5 +46,4 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 "email"
         );
     }
-
 }
