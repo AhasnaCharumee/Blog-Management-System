@@ -293,16 +293,17 @@
     document.getElementById('logoutButton').addEventListener('click', async e => {
         e.preventDefault();
         try {
-            const res = await fetch('/logout', {
+            const res = await fetch('http://localhost:8080/logout', {
                 method: 'POST',
                 credentials: 'include'
             });
-            if (res.ok) window.location.href = '/index.html';
+            if (res.ok) window.location.href = 'index.html';
             else console.error('Logout failed');
         } catch (err) {
             console.error('Error during logout:', err);
         }
     });
+
 
     // Load user posts
     async function loadUserPosts() {

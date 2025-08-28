@@ -170,7 +170,7 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-glass">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/index.html">
+        <a class="navbar-brand" href="index.html">
             <img src="../images/download.png" alt="BlogSphere Icon"/>
             BlogSphere
         </a>
@@ -178,9 +178,9 @@
             <a href="published-posts.html" class="btn btn-nav">
                 <i class="fa-solid fa-list"></i> Published Posts
             </a>
-            <button id="logoutBtn" class="btn btn-logout" style="margin-left: 10px;">
-                <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </button>
+<!--            <button id="logoutBtn" class="btn btn-logout" style="margin-left: 10px;">-->
+<!--                <i class="fa-solid fa-right-from-bracket"></i> Logout-->
+<!--            </button>-->
         </div>
     </div>
 </nav>
@@ -394,7 +394,7 @@
 
     document.getElementById('logoutBtn').addEventListener('click', function(){
         localStorage.removeItem('token');
-        window.location.href = '/index.html';
+        window.location.href = 'index.html';
     });
 
     document.addEventListener('DOMContentLoaded', loadMyPosts);
