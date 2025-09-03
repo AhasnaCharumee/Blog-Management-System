@@ -10,15 +10,37 @@
 
   <style>
     body {
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
       min-height: 100vh;
       color: #f6f2e9;
       font-family: Arial, Helvetica, sans-serif;
     }
+    /* Sidebar nav button styles */
+    .sidebar .nav-link {
+      display: block;
+      background: linear-gradient(to right, #ff7e5f, #feb47b); /* Orange gradient */
+      color: #fff;
+      margin: 8px 12px;
+      padding: 10px 15px;
+      border-radius: 10px;
+      font-weight: 500;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    /* Hover effect */
+    .sidebar .nav-link:hover {
+      background: linear-gradient(to right, #e96443, #904e95); /* Hover gradient */
+      transform: scale(1.05);
+      text-decoration: none;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
     #localDateTime {
       font-size: 1rem;
       font-weight: bold;
-      color: #FFA500;
+      color: #ffffff;
       background: rgba(255, 255, 255, 0.1);
       padding: 10px;
       border-radius: 8px;
@@ -42,7 +64,7 @@
       box-shadow: 0 4px 8px rgba(255, 140, 0, 0.3);
     }
     .btn-logout {
-      background-color: #dc3545;
+      background-color: #e65b00;
       color: white;
       border: none;
       padding: 8px 16px;
@@ -52,10 +74,11 @@
       width: 32px;
     }
     .sidebar {
-      background: rgba(45, 45, 45, 0.5);
+      background: rgba(128, 92, 49, 0.8);
       backdrop-filter: blur(10px);
-      border-right: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgb(218, 74, 0);
       height: 100vh;
+      position: fixed;
     }
     .main-content {
       padding: 2rem;
@@ -161,17 +184,135 @@
       padding: 0 15px;
       cursor: pointer;
     }
+    /* Default desktop sidebar */
+    .sidebar {
+      min-height: 100vh;
+      background: linear-gradient(to right, #e67635, #904e95);
+      padding: 1rem;
+    }
+
+    /* Main content shift */
+    .main-content {
+      margin-left: 16.6%; /* col-md-2 width */
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Mobile view */
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0px; /* hidden by default */
+        width: 220px;
+        height: 100%;
+        transition: left 0.3s ease;
+        z-index: 1050;
+      }
+
+      .sidebar.active {
+        left: 0; /* show sidebar when active */
+      }
+
+      .main-content {
+        margin-left: 0; /* content full width on mobile */
+      }
+
+      /* Toggle button */
+      .sidebar-toggle {
+        position: fixed;
+        top: 45px;
+        left: 300px;
+        background: #e67635;
+        border: none;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 6px;
+        z-index: 1100;
+      }
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 991px) {
+      /* Sidebar collapse into top bar */
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 2px solid #FF8C00;
+      }
+      .sidebar .nav-link {
+        text-align: left;
+        margin: 5px 0;
+        border-radius: 6px;
+        padding: 8px 12px;
+      }
+      .main-content {
+        margin-left: 0;
+        padding: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Cards stack full width */
+      .stat-card-posts,
+      .stat-card-users,
+      .stat-card {
+        margin-bottom: 1rem;
+      }
+      .row.g-4 > .col-md-4,
+      .row.g-4 > .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+
+      /* Chart containers responsive */
+      .chart-container {
+        height: 250px !important;
+      }
+
+      /* Table responsive */
+      .table-responsive {
+        font-size: 0.9rem;
+      }
+
+      /* Chatbot widget smaller on mobile */
+      .chatbot-widget {
+        width: 90%;
+        right: 5%;
+        bottom: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navbar-brand {
+        font-size: 1rem;
+      }
+      .navbar-brand img {
+        width: 24px;
+      }
+      .btn-logout {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+      .chatbot-widget {
+        width: 100%;
+        right: 0;
+        border-radius: 0;
+      }
+    }
 
   </style>
 </head>
 <body>
-<div class="container-fluid">
+<div class="container-fluid"  style="background: linear-gradient(to right, #9c672f, #904e95);">
   <nav class="navbar navbar-expand-lg navbar-glass">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html">
         <img src="../images/download.png" alt="BlogSphere Icon">
         BlogSphere Admin
       </a>
+
       <div class="d-flex">
 
         <!--        <form action="/logout" method="post" style="display:inline;">-->
@@ -183,7 +324,7 @@
     </div>
   </nav>
   <div class="row">
-    <nav class="col-md-2 d-none d-md-block bg-dark sidebar text-white">
+    <nav class="col-md-2 sidebar bg-dark text-white" style="background: linear-gradient(to right, #e67635,#904e95);">
       <div class="position-sticky pt-3">
         <h4 class="text-center py-3">Admin Panel</h4>
         <ul class="nav flex-column">
@@ -192,14 +333,15 @@
         </ul>
         <div class="mt-5 px-3">
           <hr class="text-white"/>
-          <p>👨 Admin: Admin User</p>
+          <p>👨 Admin:</p>
         </div>
         <div id="localDateTime" class="text-end mb-3"></div>
       </div>
     </nav>
 
+
     <main class="col-md-10 ms-sm-auto px-md-4 main-content">
-      <h2 class="mb-4">Dashboard</h2>
+<!--      <h2 class="mb-4">Dashboard</h2>-->
 
       <div class="row g-4 mb-5">
         <div class="col-md-4">
@@ -376,9 +518,9 @@
         datasets: [{
           data: [approved, pending, rejected],
           backgroundColor: [
-            'rgba(255, 140, 0, 0.8)',
+            'rgba(7,74,27,0.8)',
             'rgba(255, 165, 0, 0.8)',
-            'rgba(255, 69, 0, 0.8)'
+            'rgb(232,5,5)'
           ],
           borderColor: [
             'rgba(255, 140, 0, 1)',
@@ -543,6 +685,7 @@
       messagesDiv.innerHTML += `<div class="chat-message ai-message">⚠️ Error: Could not reach AI service.</div>`;
     }
   }
+
 
   window.onload = loadAdminDashboard;
 </script>
