@@ -38,15 +38,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .addFilterBefore(jwtTokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/me").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/posts/me/**").authenticated()  // keep first
+                        .requestMatchers(HttpMethod.GET, "/api/posts/published").permitAll()
+                        .requestMatchers("/api/posts/**").authenticated() // require auth for other POST/PUT/DELETE
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
                         .requestMatchers("/images/**", "/uploads/**", "/front_end/**").permitAll()
-                        .requestMatchers("/front_end/pages/static/**", "/css/**", "/js/**", "/uploads/**", "/front_end/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
-                        .requestMatchers("/api/chat/**").permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/Login.html")
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))

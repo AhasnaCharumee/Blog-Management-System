@@ -11,15 +11,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String content;
     private String author;
     private LocalDateTime createdDate;
     private String imagePath;
-    private PostStatus status; // Add this line
+    private PostStatus status;
     private int views;
     private int likes;
     private int commentsCount;

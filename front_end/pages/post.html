@@ -54,21 +54,6 @@
             box-shadow: 0 8px 25px rgba(253, 101, 55, 0.5);
         }
 
-        .btn-logout {
-            background: rgba(255, 255, 255, 0.07);
-            color: #fd6537 !important;
-            border: 1px solid rgba(253, 101, 55, 0.4);
-            padding: 9px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .btn-logout:hover {
-            background: #fd6537;
-            color: #fff !important;
-            transform: translateY(-2px);
-        }
-
         /* Card (Glassy look) */
         .glassy-card {
             background: rgba(255, 255, 255, 0.1);
@@ -89,10 +74,7 @@
         }
 
         /* Form */
-        .form-label {
-            color: #fd6537;
-            font-weight: 600;
-        }
+        .form-label { color: #fd6537; font-weight: 600; }
         .form-control {
             background: rgba(255, 255, 255, 0.08);
             color: #fff;
@@ -106,7 +88,6 @@
             box-shadow: 0 0 0 0.2rem rgba(253, 101, 55, 0.25);
             color: #fff;
         }
-
         .glassy-btn {
             background: linear-gradient(135deg, #fd6537, #ff835e);
             border: none;
@@ -144,19 +125,9 @@
             animation: fadeInScale 0.5s ease;
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInScale { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
         @media (max-width: 600px) {
             .navbar-brand img { width: 28px; }
@@ -167,6 +138,7 @@
     </style>
 </head>
 <body>
+
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-glass">
     <div class="container-fluid">
@@ -178,14 +150,12 @@
             <a href="published-posts.html" class="btn btn-nav">
                 <i class="fa-solid fa-list"></i> Published Posts
             </a>
-
         </div>
     </div>
 </nav>
 
-<!-- Container -->
 <div class="container py-4">
-    <h1 class="mb-4 text-center" style="color:#fd6537; font-weight:700;">Create  Posts</h1>
+    <h1 class="mb-4 text-center" style="color:#fd6537;">Create Posts</h1>
 
     <!-- Create Post -->
     <div class="glassy-card">
@@ -214,183 +184,181 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1">
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <form id="editForm" class="modal-content" enctype="multipart/form-data">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Post</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <h5 class="modal-title" id="editModalLabel">Edit Post</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editPostForm" enctype="multipart/form-data">
-                    <input type="hidden" id="editPostId">
-                    <div class="mb-3">
-                        <label class="form-label">Title</label>
-                        <input type="text" id="editTitle" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Content</label>
-                        <textarea id="editContent" class="form-control" rows="4" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Image (optional)</label>
-                        <input type="file" id="editImage" class="form-control" accept="image/*">
-                    </div>
-                </form>
+                <input type="hidden" id="editPostId">
+                <div class="mb-3">
+                    <label class="form-label">Title</label>
+                    <input type="text" id="editTitle" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Content</label>
+                    <textarea id="editContent" class="form-control" rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Image (optional)</label>
+                    <input type="file" id="editImage" class="form-control" accept="image/*"/>
+                </div>
+                <div id="editError" class="text-danger mt-2" style="display:none"></div>
+                <div id="editSuccess" class="text-success mt-2" style="display:none"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="submitEdit()">Save Changes</button>
+                <button type="submit" class="btn btn-warning">Update Post</button>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 
-<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const BASE_URL = 'http://localhost:8080/api/posts';
-
-    function getToken() { return localStorage.getItem('token'); }
-    function getAuthHeaders() {
-        const token = getToken();
-        return token ? { 'Authorization': 'Bearer ' + token } : {};
-    }
+    let editModal = new bootstrap.Modal(document.getElementById('editModal'));
 
     async function loadMyPosts() {
         try {
-            const response = await fetch(`${BASE_URL}/me/posts`, { headers: getAuthHeaders() });
-            if (!response.ok) throw new Error("Failed to fetch");
-            const result = await response.json();
-            const postsList = document.getElementById('postsList');
+            const res = await fetch(`${BASE_URL}/me/posts`, { credentials: 'include' });
+            if(!res.ok) throw new Error('Failed to fetch posts');
+            const result = await res.json();
             const posts = result.data || [];
+            const postsList = document.getElementById('postsList');
+
             if(posts.length === 0) {
                 postsList.innerHTML = `<div class="alert alert-info">You have not created any posts yet.</div>`;
                 return;
             }
+
+            // Render posts
             postsList.innerHTML = posts.map(post => `
-          <div class="glassy-card mb-3">
-            <h5 style="color:#fd6537;">${post.title}</h5>
-            <p><small>${new Date(post.createdDate).toLocaleString()}</small></p>
-            ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image" alt="Post Image">` : ''}
-            <p>${post.content}</p>
-            <div class="mt-3">
-              <button class="btn btn-warning btn-sm" onclick="openEditModal(${post.id}, '${post.title}', \`${post.content}\`)">
-                <i class="fa-solid fa-pen"></i> Edit
-              </button>
-              <button class="btn btn-danger btn-sm" onclick="deletePost(${post.id})">
-                <i class="fa-solid fa-trash"></i> Delete
-              </button>
+            <div class="glassy-card"
+                 data-id="${post.id}"
+                 data-title="${post.title.replace(/"/g,'&quot;')}"
+                 data-content="${post.content.replace(/"/g,'&quot;')}">
+                <h5 style="color:#fd6537;">${post.title}</h5>
+                <p><small>${new Date(post.createdDate).toLocaleString()}</small></p>
+                ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image">` : ''}
+                <p>${post.content}</p>
+                <button class="btn btn-sm btn-warning me-2 update-btn">Update</button>
+                <button class="btn btn-sm btn-danger delete-btn">Delete</button>
             </div>
-          </div>
         `).join('');
-        } catch (error) {
-            document.getElementById('postsList').innerHTML =
-                `<div class="alert alert-danger">Failed to load your posts.</div>`;
+
+            // Add event listeners
+            document.querySelectorAll('.update-btn').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const card = e.target.closest('.glassy-card');
+                    openEditModal(card.dataset.id, card.dataset.title, card.dataset.content);
+                });
+            });
+
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', e => {
+                    const card = e.target.closest('.glassy-card');
+                    deletePost(card.dataset.id);
+                });
+            });
+
+        } catch(err) {
+            console.error(err);
+            document.getElementById('postsList').innerHTML = `<div class="alert alert-danger">Failed to load your posts</div>`;
         }
     }
 
-    document.getElementById('postForm').addEventListener('submit', async function(e){
+    function openEditModal(id, title, content){
+        document.getElementById('editPostId').value = id;
+        document.getElementById('editTitle').value = title;
+        document.getElementById('editContent').value = content;
+        document.getElementById('editError').style.display='none';
+        document.getElementById('editSuccess').style.display='none';
+        editModal.show();
+    }
+
+    // The rest of your submit/delete handlers remain the same
+    document.getElementById('editForm').addEventListener('submit', async e=>{
         e.preventDefault();
-        document.getElementById('postError').style.display = 'none';
-        document.getElementById('postSuccess').style.display = 'none';
-
-        const title = document.getElementById('title').value.trim();
-        const content = document.getElementById('content').value.trim();
-        const image = document.getElementById('image').files[0];
-
-        if(!title || !content){
-            document.getElementById('postError').textContent = 'Title and content are required.';
-            document.getElementById('postError').style.display = 'block';
-            return;
-        }
-
+        const id = document.getElementById('editPostId').value;
+        const title = document.getElementById('editTitle').value.trim();
+        const content = document.getElementById('editContent').value.trim();
+        const image = document.getElementById('editImage').files[0];
         const formData = new FormData();
         formData.append('title', title);
         formData.append('content', content);
         if(image) formData.append('image', image);
 
         try {
-            const response = await fetch(BASE_URL, {
-                method: 'POST',
-                headers: getAuthHeaders(),
-                body: formData
+            const res = await fetch(`${BASE_URL}/${id}`, {
+                method:'PUT', body: formData, credentials:'include'
             });
-            const result = await response.json();
-            if(response.ok){
-                document.getElementById('postSuccess').textContent = 'Post created successfully!';
-                document.getElementById('postSuccess').style.display = 'block';
-                document.getElementById('postForm').reset();
+            const result = await res.json();
+            if(res.ok){
+                document.getElementById('editSuccess').textContent='Post updated successfully!';
+                document.getElementById('editSuccess').style.display='block';
                 loadMyPosts();
+                setTimeout(()=>editModal.hide(),1000);
             } else {
-                document.getElementById('postError').textContent = result.message || 'Failed to create post.';
-                document.getElementById('postError').style.display = 'block';
+                document.getElementById('editError').textContent = result.message || 'Failed to update';
+                document.getElementById('editError').style.display='block';
             }
         } catch(err){
-            document.getElementById('postError').textContent = 'Error submitting post.';
-            document.getElementById('postError').style.display = 'block';
+            document.getElementById('editError').textContent='Error updating post';
+            document.getElementById('editError').style.display='block';
         }
     });
 
-    function openEditModal(id, title, content) {
-        document.getElementById("editPostId").value = id;
-        document.getElementById("editTitle").value = title;
-        document.getElementById("editContent").value = content;
-        const modal = new bootstrap.Modal(document.getElementById("editModal"));
-        modal.show();
-    }
-
-    async function submitEdit() {
-        const id = document.getElementById("editPostId").value;
-        const title = document.getElementById("editTitle").value;
-        const content = document.getElementById("editContent").value;
-        const image = document.getElementById("editImage").files[0];
-
+    document.getElementById('postForm').addEventListener('submit', async e=>{
+        e.preventDefault();
+        document.getElementById('postError').style.display='none';
+        document.getElementById('postSuccess').style.display='none';
+        const title = document.getElementById('title').value.trim();
+        const content = document.getElementById('content').value.trim();
+        const image = document.getElementById('image').files[0];
+        if(!title || !content){
+            document.getElementById('postError').textContent='Title and content required';
+            document.getElementById('postError').style.display='block';
+            return;
+        }
         const formData = new FormData();
-        formData.append("title", title);
-        formData.append("content", content);
-        if(image) formData.append("image", image);
+        formData.append('title', title);
+        formData.append('content', content);
+        if(image) formData.append('image', image);
 
         try {
-            const response = await fetch(`${BASE_URL}/${id}`, {
-                method: "PUT",
-                headers: getAuthHeaders(),
-                body: formData
-            });
-            const result = await response.json();
-            if(response.ok){
-                alert("Post updated successfully!");
-                bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
+            const res = await fetch(BASE_URL, { method:'POST', body:formData, credentials:'include' });
+            const result = await res.json();
+            if(res.ok){
+                document.getElementById('postSuccess').textContent='Post created successfully!';
+                document.getElementById('postSuccess').style.display='block';
+                document.getElementById('postForm').reset();
                 loadMyPosts();
             } else {
-                alert(result.message || "Failed to update post.");
+                document.getElementById('postError').textContent=result.message || 'Failed';
+                document.getElementById('postError').style.display='block';
             }
-        } catch(err) {
-            alert("Error updating post.");
+        } catch(err){
+            document.getElementById('postError').textContent='Error creating post';
+            document.getElementById('postError').style.display='block';
         }
-    }
+    });
 
-    async function deletePost(id) {
+    async function deletePost(postId){
         if(!confirm("Are you sure you want to delete this post?")) return;
-
         try {
-            const response = await fetch(`${BASE_URL}/${id}`, {
-                method: "DELETE",
-                headers: getAuthHeaders()
-            });
-            const result = await response.json();
-            if(response.ok){
-                alert("Post deleted successfully!");
+            const res = await fetch(`${BASE_URL}/${postId}`, { method:'DELETE', credentials:'include' });
+            const result = await res.json();
+            if(res.ok){
+                alert(result.message || "Deleted successfully");
                 loadMyPosts();
-            } else {
-                alert(result.message || "Failed to delete post.");
-            }
-        } catch(err) {
-            alert("Error deleting post.");
+            } else alert(result.message || "Failed to delete");
+        } catch(err){
+            alert("Error deleting post");
         }
     }
-
-
 
     document.addEventListener('DOMContentLoaded', loadMyPosts);
 </script>

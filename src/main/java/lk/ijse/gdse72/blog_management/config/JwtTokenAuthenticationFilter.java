@@ -44,12 +44,14 @@ public class JwtTokenAuthenticationFilter extends OncePerRequestFilter {
             if (email != null && role != null) {
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
-                                email,
+                                new org.springframework.security.core.userdetails.User(email, "",
+                                        Collections.singletonList(new SimpleGrantedAuthority(role))),
                                 null,
                                 Collections.singletonList(new SimpleGrantedAuthority(role))
                         );
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
+
         }
 
         filterChain.doFilter(request, response);

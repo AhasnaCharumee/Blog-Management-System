@@ -1,5 +1,5 @@
-// src/main/java/lk/ijse/gdse72/blog_management/service/impl/PostServiceImpl.java
 package lk.ijse.gdse72.blog_management.service.impl;
+
 import jakarta.persistence.EntityNotFoundException;
 import lk.ijse.gdse72.blog_management.dto.PostDTO;
 import lk.ijse.gdse72.blog_management.entity.Post;
@@ -20,10 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,24 +32,26 @@ public class PostServiceImpl implements PostService {
     private final EmailService emailService;
 
     private final String uploadDir = "uploads/";
-
     @Override
     public PostDTO createPost(PostDTO postDTO, MultipartFile image, User user) {
-        String authorName = user.getName() != null ? user.getName() : user.getEmail();
-
         String imagePath = null;
         if (image != null && !image.isEmpty()) {
             imagePath = saveImage(image);
         }
 
+        // ✅ Avoid null for author
+        String authorName = (user != null)
+                ? (user.getName() != null ? user.getName() : user.getEmail())
+                : "Anonymous";
+
         Post post = Post.builder()
                 .title(postDTO.getTitle())
                 .content(postDTO.getContent())
-                .author(authorName)
+                .author(authorName)   // always non-null
                 .createdDate(postDTO.getCreatedDate() != null ? postDTO.getCreatedDate() : LocalDateTime.now())
                 .imagePath(imagePath)
                 .status(PostStatus.PENDING)
-                .user(user) // Link to authenticated user
+                .user(user)
                 .views(0)
                 .likes(0)
                 .commentsCount(0)
@@ -63,34 +62,41 @@ public class PostServiceImpl implements PostService {
     }
 
 
-
     @Override
     public List<PostDTO> getAllPosts() {
-        return postRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+        return postRepository.findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
     public PostDTO getPostById(Long id) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
         return toDTO(post);
     }
 
     @Override
     public PostDTO updatePost(Long id, PostDTO postDTO, MultipartFile image) {
-        Post post = postRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Post not found"));
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Post not found"));
 
         post.setTitle(postDTO.getTitle());
         post.setContent(postDTO.getContent());
         if (image != null && !image.isEmpty()) {
             post.setImagePath(saveImage(image));
         }
-        // Optionally update status, etc.
+
         postRepository.save(post);
         return toDTO(post);
     }
 
     @Override
     public void deletePost(Long id) {
+        if (!postRepository.existsById(id)) {
+            throw new EntityNotFoundException("Post not found with id " + id);
+        }
         postRepository.deleteById(id);
     }
 
@@ -101,7 +107,6 @@ public class PostServiceImpl implements PostService {
         post.setStatus(PostStatus.APPROVED);
         postRepository.save(post);
 
-        // Send email notification to the post owner
         if (post.getUser() != null && post.getUser().getEmail() != null) {
             String email = post.getUser().getEmail();
             String subject = "Your Post is Approved!";
@@ -122,21 +127,28 @@ public class PostServiceImpl implements PostService {
         postRepository.save(post);
         return toDTO(post);
     }
+
     @Override
     public List<PostDTO> getAllPostsForAdmin() {
-        return postRepository.findAll().stream()
+        return postRepository.findAll()
+                .stream()
                 .map(this::toDTO)
                 .collect(Collectors.toList());
     }
 
     @Override
     public void updatePost(Long postId, PostDTO postDTO, Long authenticatedUserId) {
-        // Implement as needed
+        // TODO: Implement if needed (e.g., ensure only owner can update)
     }
 
-    @Override
     public List<PostDTO> getPostsByUser(User user) {
-        return postRepository.findByUser(user).stream().map(this::toDTO).collect(Collectors.toList());
+        List<Post> posts = postRepository.findByUser(user);
+        return posts.stream()
+                .map(post -> new PostDTO(post.getId(), post.getTitle(), post.getContent(),
+                        post.getAuthor(), post.getCreatedDate(),
+                        post.getImagePath(), post.getStatus(), post.getViews(),
+                        post.getLikes(), post.getCommentsCount()))
+                .collect(Collectors.toList());
     }
 
     private String saveImage(MultipartFile image) {
@@ -152,11 +164,15 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDTO toDTO(Post post) {
+        String authorName = (post.getUser() != null && post.getUser().getName() != null)
+                ? post.getUser().getName()
+                : (post.getAuthor() != null ? post.getAuthor() : "Unknown");
+
         return new PostDTO(
                 post.getId(),
                 post.getTitle(),
                 post.getContent(),
-                post.getAuthor(),
+                authorName,
                 post.getCreatedDate(),
                 post.getImagePath(),
                 post.getStatus(),
@@ -165,8 +181,13 @@ public class PostServiceImpl implements PostService {
                 post.getCommentsCount()
         );
     }
+
     @Override
     public Map<String, Object> getUserPostInteractionStats(User user) {
+        if (user == null) {
+            return Map.of("totalLikes", 0, "totalComments", 0, "totalViews", 0);
+        }
+
         List<Post> userPosts = postRepository.findByUser(user);
         int totalLikes = userPosts.stream().mapToInt(Post::getLikes).sum();
         int totalComments = userPosts.stream().mapToInt(Post::getCommentsCount).sum();
