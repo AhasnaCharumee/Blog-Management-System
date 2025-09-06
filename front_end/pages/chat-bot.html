@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Blog Chatbot</title>
+    <!-- Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f0f10, #1a1b1e);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Floating bubbles background */
+        .bubbles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: #ff6e06;
+            border-radius: 50%;
+            animation: rise 20s infinite ease-in;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-120vh) scale(1.2); opacity: 0; }
+        }
+
+        /* Chatbot container */
+        .chat-container {
+            max-width: 420px;
+            height: 600px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+            background: white;
+        }
+        .chat-header {
+            background-color: #db3d0d;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            border-bottom: 1px solid #374151;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background-color: #f9fafb;
+            display: flex;
+            flex-direction: column;
+        }
+        .message {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.75rem;
+            border-radius: 1.25rem;
+            line-height: 1.5;
+        }
+        /* Orange chat bubbles */
+        .user-message {
+            background-color: #fd6537; /* bright orange for user */
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 0.25rem;
+        }
+        .ai-message {
+            background-color: #454242; /* soft orange for AI */
+            color: #ffffff;
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        /* Input box */
+        .chat-input-container {
+            background-color: #ffffff;
+            border-top: 1px solid #e5e7eb;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px;
+            border: 1px solid #fd6537;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .chat-input:focus {
+            border-color: #fd6537;
+            box-shadow: 0 0 0 2px rgba(253, 101, 55, 0.2);
+        }
+        .send-button {
+            background-color: #fd6537;
+            color: white;
+            padding: 0.75rem;
+            margin-left: 0.5rem;
+            border-radius: 9999px;
+            transition: background-color 0.2s;
+        }
+        .send-button:hover { background-color: #e24c1e; }
+
+        .loading-dots {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 20px;
+            margin-bottom: 15px;
+        }
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #9ca3af;
+            border-radius: 50%;
+            margin: 0 4px;
+            animation: bounce 1s infinite;
+        }
+        .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* Mobile */
+        @media (max-width: 640px) {
+            .chat-container {
+                height: 100vh;
+                margin: 0;
+                border-radius: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Bubble background -->
+<div class="bubbles">
+    <div class="bubble" style="left:10%; width:40px; height:40px; animation-duration:18s;"></div>
+    <div class="bubble" style="left:25%; width:20px; height:20px; animation-duration:12s;"></div>
+    <div class="bubble" style="left:40%; width:50px; height:50px; animation-duration:22s;"></div>
+    <div class="bubble" style="left:55%; width:30px; height:30px; animation-duration:15s;"></div>
+    <div class="bubble" style="left:70%; width:60px; height:60px; animation-duration:25s;"></div>
+    <div class="bubble" style="left:85%; width:25px; height:25px; animation-duration:10s;"></div>
+</div>
+
+<!-- Chatbot -->
+<div class="chat-container">
+    <div class="chat-header">Blog Bot</div>
+    <!-- Cut/Close Icon linking to myaccount.html -->
+    <div class="fixed top-4 right-4 cursor-pointer p-2 bg-orange-500 rounded-full hover:bg-orange-600 transition">
+        <a href="my_account.html" title="Go to My Account">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </a>
+    </div>
+
+    <div class="chat-messages" id="chat-messages">
+        <div class="ai-message message">
+            Hello! I'm the Blog Bot. You can ask me anything.
+        </div>
+    </div>
+    <div class="loading-dots hidden" id="loading-indicator">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+    </div>
+    <div class="chat-input-container">
+        <input type="text" id="chat-input" class="chat-input" placeholder="Type your question...">
+        <button id="send-button" class="send-button">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.498 12L3.27 20.874A59.768 59.768 0 016 12zM12 21.498L3.126 12A59.768 59.768 0 0112 2.502L20.874 12A59.768 59.768 0 0112 21.498z" />
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script>
+    const API_KEY = "AIzaSyDAx19P1chEm9qw_ZNRc_drurL0THWEh4E";
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+    const BLOG_POSTS_URL = 'http://localhost:8080/api/posts/published';
+
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+    const loadingIndicator = document.getElementById('loading-indicator');
+
+    let blogPosts = [];
+
+    function addMessageToChat(message, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', isUser ? 'user-message' : 'ai-message');
+        messageDiv.textContent = message;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function fetchBlogPosts() {
+        try {
+            const response = await fetch(BLOG_POSTS_URL);
+            if (!response.ok) return;
+            const data = await response.json();
+            blogPosts = data.data || [];
+            console.log("Blog posts loaded:", blogPosts);
+        } catch (error) {
+            console.error("Error fetching blog posts:", error);
+        }
+    }
+
+    async function sendMessage() {
+        const userMessage = chatInput.value.trim();
+        if (userMessage === '') return;
+
+        addMessageToChat(userMessage, true);
+        chatInput.value = '';
+
+        loadingIndicator.classList.remove('hidden');
+        sendButton.disabled = true;
+
+        try {
+            const blogContext = blogPosts.length > 0
+                ? blogPosts.map(post => `Title: ${post.title}\nContent: ${post.content}`).join('\n\n---\n\n')
+                : "No blog posts available.";
+
+            const prompt = `You are a helpful and friendly assistant.
+If blog posts are available, use them to answer.
+If no blog posts are available, answer with your general knowledge.
+
+Blog Posts:
+${blogContext}
+
+User Question: ${userMessage}`;
+
+            const payload = { contents: [{ parts: [{ text: prompt }] }] };
+
+            const response = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+            const aiResponse = result.candidates?.[0]?.content?.parts
+                ?.map(p => p.text)
+                .join(" ") || "I'm sorry, I could not get a response from the AI.";
+
+            addMessageToChat(aiResponse, false);
+
+        } catch (error) {
+            console.error('Error with API call:', error);
+            addMessageToChat("I'm sorry, there was an error. Please try again later.", false);
+        } finally {
+            loadingIndicator.classList.add('hidden');
+            sendButton.disabled = false;
+        }
+    }
+
+    sendButton.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    window.onload = fetchBlogPosts;
+</script>
+
+</body>
+</html>

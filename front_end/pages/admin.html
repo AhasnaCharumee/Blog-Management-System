@@ -115,75 +115,6 @@
     .table-striped tbody tr:nth-of-type(odd) {
       background-color: rgba(0, 0, 0, 0.1);
     }
-    /* Chatbot Widget Styles */
-    .chatbot-widget {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 300px;
-      background: #2d2d2d;
-      border-radius: 12px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-      overflow: hidden;
-      font-size: 14px;
-      z-index: 9999;
-    }
-    .chat-header {
-      background: #FF8C00;
-      color: white;
-      padding: 10px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .chat-body {
-      display: none;
-      flex-direction: column;
-      height: 350px;
-    }
-    .chat-messages {
-      flex: 1;
-      padding: 10px;
-      overflow-y: auto;
-      background: #1a1a1a;
-      color: #f6f2e9;
-    }
-    .chat-message {
-      margin-bottom: 10px;
-      padding: 6px 10px;
-      border-radius: 8px;
-      max-width: 80%;
-    }
-    .user-message {
-      background: #FF8C00;
-      color: white;
-      margin-left: auto;
-    }
-    .ai-message {
-      background: #444;
-      color: #f6f2e9;
-      margin-right: auto;
-    }
-    .chat-input-container {
-      display: flex;
-      border-top: 1px solid #444;
-    }
-    .chat-input {
-      flex: 1;
-      border: none;
-      padding: 10px;
-      background: #2d2d2d;
-      color: white;
-    }
-    .chat-input:focus {
-      outline: none;
-    }
-    .chat-send {
-      border: none;
-      background: #FF8C00;
-      color: white;
-      padding: 0 15px;
-      cursor: pointer;
-    }
     /* Default desktop sidebar */
     .sidebar {
       min-height: 100vh;
@@ -305,7 +236,7 @@
   </style>
 </head>
 <body>
-<div class="container-fluid"  style="background: linear-gradient(to right, #9c672f, #904e95);">
+<div class="container-fluid"  style="background: linear-gradient(to right, #904e95, #dfd4df);">
   <nav class="navbar navbar-expand-lg navbar-glass">
     <div class="container-fluid">
       <a class="navbar-brand" href="/index.html">
@@ -313,14 +244,7 @@
         BlogSphere Admin
       </a>
 
-      <div class="d-flex">
 
-        <!--        <form action="/logout" method="post" style="display:inline;">-->
-        <button type="submit" class="btn btn-logout"><a href="index.html" style=" text-decoration: none;" id="logoutButton">
-          <i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-        </button>
-        <!--        </form>-->
-      </div>
     </div>
   </nav>
   <div class="row">
@@ -333,9 +257,16 @@
         </ul>
         <div class="mt-5 px-3">
           <hr class="text-white"/>
-          <p>👨 Admin:</p>
         </div>
         <div id="localDateTime" class="text-end mb-3"></div>
+      </div>
+      <div class="d-flex">
+
+        <!--        <form action="/logout" method="post" style="display:inline;">-->
+        <button type="submit" class="btn btn-logout"><a href="index.html" style=" text-decoration: none;color: white;" id="logoutButton">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </button>
+        <!--        </form>-->
       </div>
     </nav>
 
@@ -422,18 +353,7 @@
   </div>
 </div>
 
-<div id="chatbot-widget" class="chatbot-widget">
-  <div class="chat-header" onclick="toggleChat()">
-    🤖 AI Assistant <span id="chat-toggle">▲</span>
-  </div>
-  <div id="chat-body" class="chat-body">
-    <div id="chat-messages" class="chat-messages"></div>
-    <div class="chat-input-container">
-      <input type="text" id="chat-input" class="chat-input" placeholder="Type a message..." />
-      <button onclick="sendChatMessage()" class="chat-send">Send</button>
-    </div>
-  </div>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -572,7 +492,7 @@
         datasets: [{
           label: 'Posts Count',
           data: postCounts,
-          backgroundColor: 'rgba(255, 140, 0, 0.8)',
+          backgroundColor: 'rgb(44,122,234)',
           borderColor: 'rgba(255, 140, 0, 1)',
           borderWidth: 1
         }]
@@ -645,49 +565,9 @@
     }
   });
 
-  // Chatbot functions
-  function toggleChat() {
-    const chatBody = document.getElementById("chat-body");
-    const toggleIcon = document.getElementById("chat-toggle");
-    if (chatBody.style.display === "flex") {
-      chatBody.style.display = "none";
-      toggleIcon.textContent = "▲";
-    } else {
-      chatBody.style.display = "flex";
-      toggleIcon.textContent = "▼";
-    }
-  }
-
-  async function sendChatMessage() {
-    const input = document.getElementById("chat-input");
-    const messagesDiv = document.getElementById("chat-messages");
-    const message = input.value.trim();
-    if (!message) return;
-
-    messagesDiv.innerHTML += `<div class="chat-message user-message">${message}</div>`;
-    input.value = "";
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    try {
-      const response = await fetch("http://localhost:8080/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: message })
-      });
-
-
-      const aiReply = await response.text();
-      messagesDiv.innerHTML += `<div class="chat-message ai-message">${aiReply}</div>`;
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-
-    } catch (err) {
-      console.error("Chatbot error:", err);
-      messagesDiv.innerHTML += `<div class="chat-message ai-message">⚠️ Error: Could not reach AI service.</div>`;
-    }
-  }
-
 
   window.onload = loadAdminDashboard;
 </script>
+
 </body>
 </html>
