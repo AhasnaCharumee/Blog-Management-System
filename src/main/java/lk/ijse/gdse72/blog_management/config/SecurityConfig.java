@@ -44,6 +44,8 @@ public class SecurityConfig {
                         .requestMatchers("/admin.html", "/api/admins/**").hasRole("ADMIN")
                         .requestMatchers("/images/**", "/uploads/**", "/front_end/**").permitAll()
                         .requestMatchers("/Login.html", "/api/auth/**", "/", "/index.html", "/published-posts.html", "/my_account.html", "/post.html").permitAll()
+                        .requestMatchers("/chat-websocket/**", "/app/**", "/topic/**").permitAll()
+
                         .anyRequest().authenticated()
                 )
 

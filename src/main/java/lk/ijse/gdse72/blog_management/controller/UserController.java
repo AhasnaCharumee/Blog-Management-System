@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,15 +32,28 @@ public class UserController {
         this.userRepository = userRepository;
         File dir = new File(UPLOAD_DIR);
         if (!dir.exists()) dir.mkdirs(); // create folder if not exist
-    }
+    } @GetMapping("/me")
+    public ResponseEntity<UserDTO> getCurrentUser(@AuthenticationPrincipal Object principal) {
 
-    @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUser() {
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) return ResponseEntity.status(401).build();
+        if (principal == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
-        String email = auth.getName(); // this works for JWT users
-        if (email == null) return ResponseEntity.status(401).build();
+        String email = null;
+
+        // Case 1: Spring Security JWT / UsernamePassword
+        if (principal instanceof org.springframework.security.core.userdetails.User userDetails) {
+            email = userDetails.getUsername();
+        }
+
+        // Case 2: OAuth2 Login
+        if (principal instanceof OAuth2User oauth2User) {
+            email = oauth2User.getAttribute("email");
+        }
+
+        if (email == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
         return userRepository.findByEmail(email)
                 .map(u -> ResponseEntity.ok(new UserDTO(
@@ -49,8 +63,9 @@ public class UserController {
                         u.getBio(),
                         u.getProfileImagePath()
                 )))
-                .orElseGet(() -> ResponseEntity.status(404).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
 
     // Update profile
     @PutMapping("/update/{id}")
@@ -104,13 +119,6 @@ public class UserController {
         userRepository.deleteById(id);
         return ResponseEntity.ok("User deleted successfully");
     }
-    @GetMapping("/images/{filename}")
-    public ResponseEntity<Resource> serveImage(@PathVariable String filename) throws MalformedURLException {
-        File file = new File(UPLOAD_DIR + filename);
-        if (!file.exists()) return ResponseEntity.notFound().build();
 
-        UrlResource resource = new UrlResource(file.toURI());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_TYPE, "image/jpeg").body(resource);
-    }
 
 }
