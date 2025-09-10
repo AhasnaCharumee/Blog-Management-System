@@ -1,33 +1,22 @@
-2025-09-09T02:23:09.146+05:30  WARN 18564 --- [Blog_Management] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h23s684ms817µs100ns).
-2025-09-09T02:23:07.673+05:30  INFO 18564 --- [Blog_Management] [MessageBroker-2] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[7 current WS(7)-HttpStream(0)-HttpPoll(0), 8 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(8)-CONNECTED(8)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 54], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 16], sockJsScheduler[pool size = 12, active threads = 6, queued tasks = 3, completed tasks = 2446]
-2025-09-09T02:38:04.787+05:30  WARN 18564 --- [Blog_Management] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=8m25s139ms447µs600ns).
-2025-09-09T02:47:46.487+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-09-09T02:47:46.518+05:30  INFO 18564 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-09-09T02:47:46.543+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
-2025-09-09T02:47:46.544+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@402ecbc7]]
-2025-09-09T02:47:46.544+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
-2025-09-09T02:47:46.585+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T02:47:46.616+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-09-09T02:47:46.632+05:30  INFO 18564 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-09-09T02:47:54.061+05:30  INFO 27540 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 27540 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
-2025-09-09T02:47:54.064+05:30 DEBUG 27540 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
-2025-09-09T02:47:54.065+05:30  INFO 27540 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-09-09T02:47:55.684+05:30  INFO 27540 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-09T02:47:55.872+05:30  INFO 27540 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 180 ms. Found 6 JPA repository interfaces.
-2025-09-09T02:47:56.366+05:30  INFO 27540 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-09-09T02:47:56.378+05:30  INFO 27540 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-09-09T02:47:56.378+05:30  INFO 27540 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
-2025-09-09T02:47:56.725+05:30  INFO 27540 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-09-09T02:47:56.726+05:30  INFO 27540 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2613 ms
-2025-09-09T02:47:57.004+05:30  INFO 27540 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-09T02:47:57.063+05:30  INFO 27540 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
-2025-09-09T02:47:57.097+05:30  INFO 27540 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-09T02:47:57.476+05:30  INFO 27540 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-09T02:47:57.504+05:30  INFO 27540 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-09T02:47:57.941+05:30  INFO 27540 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@25c16cf7
-2025-09-09T02:47:57.942+05:30  INFO 27540 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-09T02:47:58.078+05:30  WARN 27540 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-09T02:47:58.094+05:30  INFO 27540 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2025-09-10T13:58:47.831+05:30  INFO 1004 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 1004 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
+2025-09-10T13:58:47.836+05:30 DEBUG 1004 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-09-10T13:58:47.836+05:30  INFO 1004 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-09-10T13:58:49.088+05:30  INFO 1004 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-10T13:58:49.290+05:30  INFO 1004 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 192 ms. Found 6 JPA repository interfaces.
+2025-09-10T13:58:49.944+05:30  INFO 1004 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-10T13:58:49.958+05:30  INFO 1004 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-10T13:58:49.959+05:30  INFO 1004 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-10T13:58:50.020+05:30  INFO 1004 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-10T13:58:50.020+05:30  INFO 1004 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2139 ms
+2025-09-10T13:58:50.270+05:30  INFO 1004 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-10T13:58:50.345+05:30  INFO 1004 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-10T13:58:50.391+05:30  INFO 1004 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-10T13:58:50.764+05:30  INFO 1004 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-10T13:58:50.804+05:30  INFO 1004 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-10T13:58:51.323+05:30  INFO 1004 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@478c84aa
+2025-09-10T13:58:51.325+05:30  INFO 1004 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-10T13:58:51.464+05:30  WARN 1004 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-10T13:58:51.481+05:30  INFO 1004 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
 	Database driver: undefined/unknown
 	Database version: 8.0.40
@@ -35,125 +24,130 @@
 	Isolation level: undefined/unknown
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2025-09-09T02:47:58.969+05:30  INFO 27540 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-09T02:47:59.131+05:30  INFO 27540 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T02:47:59.441+05:30 DEBUG 27540 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
-2025-09-09T02:47:59.904+05:30  WARN 27540 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-09T02:47:59.980+05:30  INFO 27540 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
-2025-09-09T02:48:00.164+05:30  INFO 27540 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-09-09T02:48:00.437+05:30  WARN 27540 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2025-09-09T02:48:00.694+05:30  INFO 27540 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2025-09-09T02:48:00.695+05:30  INFO 27540 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@48b14e4a]]
-2025-09-09T02:48:00.696+05:30  INFO 27540 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2025-09-09T02:48:00.704+05:30  INFO 27540 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-09-09T02:48:00.713+05:30  INFO 27540 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 7.28 seconds (process running for 8.125)
-2025-09-09T02:48:01.553+05:30  INFO 27540 --- [Blog_Management] [RMI TCP Connection(3)-192.168.96.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-09-09T02:48:01.554+05:30  INFO 27540 --- [Blog_Management] [RMI TCP Connection(3)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-09-09T02:48:01.562+05:30  INFO 27540 --- [Blog_Management] [RMI TCP Connection(3)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 8 ms
-2025-09-09T02:49:00.675+05:30  INFO 27540 --- [Blog_Management] [MessageBroker-4] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 2 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(2)-CONNECTED(2)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 12, active threads = 0, queued tasks = 0, completed tasks = 12], outboundChannel[pool size = 2, active threads = 0, queued tasks = 0, completed tasks = 2], sockJsScheduler[pool size = 11, active threads = 1, queued tasks = 3, completed tasks = 5]
-2025-09-09T03:10:32.723+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-09-09T03:10:32.782+05:30  INFO 27540 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-09-09T03:10:32.826+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
-2025-09-09T03:10:32.827+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@48b14e4a]]
-2025-09-09T03:10:32.827+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
-2025-09-09T03:10:32.882+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T03:10:32.909+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-09-09T03:10:32.982+05:30  INFO 27540 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-09-09T03:15:25.494+05:30  INFO 22340 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 22340 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
-2025-09-09T03:15:25.497+05:30 DEBUG 22340 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
-2025-09-09T03:15:25.500+05:30  INFO 22340 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-09-09T03:15:27.082+05:30  INFO 22340 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-09T03:15:27.423+05:30  INFO 22340 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 325 ms. Found 6 JPA repository interfaces.
-2025-09-09T03:15:27.810+05:30  INFO 22340 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-09-09T03:15:27.821+05:30  INFO 22340 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-09-09T03:15:27.821+05:30  INFO 22340 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
-2025-09-09T03:15:27.864+05:30  INFO 22340 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-09-09T03:15:27.865+05:30  INFO 22340 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2302 ms
-2025-09-09T03:15:28.072+05:30  INFO 22340 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-09T03:15:28.127+05:30  INFO 22340 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
-2025-09-09T03:15:28.159+05:30  INFO 22340 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-09T03:15:28.406+05:30  INFO 22340 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-09T03:15:28.432+05:30  INFO 22340 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-09T03:15:28.884+05:30  INFO 22340 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@71de1091
-2025-09-09T03:15:28.886+05:30  INFO 22340 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-09T03:15:28.979+05:30  WARN 22340 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-09T03:15:28.992+05:30  INFO 22340 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 8.0.40
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-09-09T03:15:29.802+05:30  INFO 22340 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-09T03:15:29.939+05:30  INFO 22340 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T03:15:30.212+05:30 DEBUG 22340 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
-2025-09-09T03:15:30.607+05:30  WARN 22340 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-09T03:15:30.679+05:30  INFO 22340 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
-2025-09-09T03:15:30.821+05:30  INFO 22340 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-09-09T03:15:31.102+05:30  WARN 22340 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2025-09-09T03:15:31.321+05:30  INFO 22340 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2025-09-09T03:15:31.321+05:30  INFO 22340 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@83ec0b0]]
-2025-09-09T03:15:31.322+05:30  INFO 22340 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2025-09-09T03:15:31.330+05:30  INFO 22340 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-09-09T03:15:31.338+05:30  INFO 22340 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 6.619 seconds (process running for 8.724)
-2025-09-09T03:15:31.724+05:30  INFO 22340 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-09-09T03:15:31.725+05:30  INFO 22340 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-09-09T03:15:31.731+05:30  INFO 22340 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
-2025-09-09T03:16:31.306+05:30  INFO 22340 --- [Blog_Management] [MessageBroker-4] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[3 current WS(3)-HttpStream(0)-HttpPoll(0), 3 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(3)-CONNECTED(3)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 18, active threads = 0, queued tasks = 0, completed tasks = 18], outboundChannel[pool size = 3, active threads = 0, queued tasks = 0, completed tasks = 3], sockJsScheduler[pool size = 11, active threads = 1, queued tasks = 4, completed tasks = 3]
-2025-09-09T03:46:31.343+05:30  INFO 22340 --- [Blog_Management] [MessageBroker-9] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[2 current WS(2)-HttpStream(0)-HttpPoll(0), 33 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(33)-CONNECTED(33)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 291], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 64], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 3, completed tasks = 504]
-2025-09-09T04:00:26.970+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
-2025-09-09T04:00:27.058+05:30  INFO 22340 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
-2025-09-09T04:00:27.100+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
-2025-09-09T04:00:27.103+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@83ec0b0]]
-2025-09-09T04:00:27.103+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
-2025-09-09T04:00:27.208+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T04:00:27.260+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2025-09-09T04:00:27.292+05:30  INFO 22340 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2025-09-09T04:00:42.145+05:30  INFO 17728 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 17728 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
-2025-09-09T04:00:42.147+05:30 DEBUG 17728 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
-2025-09-09T04:00:42.147+05:30  INFO 17728 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
-2025-09-09T04:00:43.557+05:30  INFO 17728 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-09-09T04:00:43.771+05:30  INFO 17728 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 205 ms. Found 6 JPA repository interfaces.
-2025-09-09T04:00:44.340+05:30  INFO 17728 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2025-09-09T04:00:44.353+05:30  INFO 17728 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2025-09-09T04:00:44.354+05:30  INFO 17728 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
-2025-09-09T04:00:44.415+05:30  INFO 17728 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2025-09-09T04:00:44.415+05:30  INFO 17728 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2229 ms
-2025-09-09T04:00:44.673+05:30  INFO 17728 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2025-09-09T04:00:44.767+05:30  INFO 17728 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
-2025-09-09T04:00:44.817+05:30  INFO 17728 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
-2025-09-09T04:00:45.178+05:30  INFO 17728 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2025-09-09T04:00:45.216+05:30  INFO 17728 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-09-09T04:00:45.849+05:30  INFO 17728 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@67a3dd86
-2025-09-09T04:00:45.850+05:30  INFO 17728 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2025-09-09T04:00:46.007+05:30  WARN 17728 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2025-09-09T04:00:46.024+05:30  INFO 17728 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
-	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
-	Database driver: undefined/unknown
-	Database version: 8.0.40
-	Autocommit mode: undefined/unknown
-	Isolation level: undefined/unknown
-	Minimum pool size: undefined/unknown
-	Maximum pool size: undefined/unknown
-2025-09-09T04:00:47.328+05:30  INFO 17728 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2025-09-09T04:00:47.590+05:30  INFO 17728 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2025-09-09T04:00:48.012+05:30 DEBUG 17728 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
-2025-09-09T04:00:48.637+05:30  WARN 17728 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2025-09-09T04:00:48.745+05:30  INFO 17728 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
-2025-09-09T04:00:49.033+05:30  INFO 17728 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
-2025-09-09T04:00:50.581+05:30  WARN 17728 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
-2025-09-09T04:00:51.625+05:30  INFO 17728 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
-2025-09-09T04:00:51.627+05:30  INFO 17728 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@2f7432f3]]
-2025-09-09T04:00:51.628+05:30  INFO 17728 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
-2025-09-09T04:00:51.693+05:30  INFO 17728 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
-2025-09-09T04:00:51.709+05:30  INFO 17728 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 10.075 seconds (process running for 11.325)
-2025-09-09T04:00:54.099+05:30  INFO 17728 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2025-09-09T04:00:54.099+05:30  INFO 17728 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2025-09-09T04:00:54.104+05:30  INFO 17728 --- [Blog_Management] [RMI TCP Connection(2)-192.168.96.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
-2025-09-09T04:01:51.428+05:30  INFO 17728 --- [Blog_Management] [MessageBroker-3] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[1 current WS(1)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 6, active threads = 0, queued tasks = 0, completed tasks = 6], outboundChannel[pool size = 1, active threads = 0, queued tasks = 0, completed tasks = 1], sockJsScheduler[pool size = 6, active threads = 1, queued tasks = 2, completed tasks = 2]
-2025-09-09T04:09:18.626+05:30  WARN 17728 --- [Blog_Management] [http-nio-8080-exec-2] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+2025-09-10T13:58:52.595+05:30  INFO 1004 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-10T13:58:52.877+05:30  INFO 1004 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-10T13:58:53.222+05:30 DEBUG 1004 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
+2025-09-10T13:58:53.731+05:30  WARN 1004 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-10T13:58:53.813+05:30  INFO 1004 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
+2025-09-10T13:58:54.022+05:30  INFO 1004 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-10T13:58:54.383+05:30  WARN 1004 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-09-10T13:58:54.677+05:30  INFO 1004 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-09-10T13:58:54.677+05:30  INFO 1004 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7adc8212]]
+2025-09-10T13:58:54.678+05:30  INFO 1004 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-09-10T13:58:54.687+05:30  INFO 1004 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-10T13:58:54.697+05:30  INFO 1004 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 7.494 seconds (process running for 8.568)
+2025-09-10T13:58:55.208+05:30  INFO 1004 --- [Blog_Management] [RMI TCP Connection(3)-192.168.30.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-10T13:58:55.209+05:30  INFO 1004 --- [Blog_Management] [RMI TCP Connection(3)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-10T13:58:55.211+05:30  INFO 1004 --- [Blog_Management] [RMI TCP Connection(3)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-10T13:59:54.633+05:30  INFO 1004 --- [Blog_Management] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-09-10T14:04:08.305+05:30  WARN 1004 --- [Blog_Management] [http-nio-8080-exec-5] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
 	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
 	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
 
-2025-09-09T04:14:20.757+05:30  WARN 17728 --- [Blog_Management] [http-nio-8080-exec-6] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [121] milliseconds.
+2025-09-10T14:29:54.661+05:30  INFO 1004 --- [Blog_Management] [MessageBroker-7] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 12], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 1, completed tasks = 334]
+2025-09-10T14:59:54.726+05:30  INFO 1004 --- [Blog_Management] [MessageBroker-2] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 12], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 3], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 1, completed tasks = 695]
+2025-09-10T15:01:19.632+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-10T15:01:19.669+05:30  INFO 1004 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-10T15:01:19.691+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-09-10T15:01:19.691+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@7adc8212]]
+2025-09-10T15:01:19.692+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-09-10T15:01:19.751+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-10T15:01:19.813+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-10T15:01:19.832+05:30  INFO 1004 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-10T15:01:23.833+05:30  INFO 12016 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 12016 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
+2025-09-10T15:01:23.834+05:30 DEBUG 12016 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-09-10T15:01:23.835+05:30  INFO 12016 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-09-10T15:01:25.087+05:30  INFO 12016 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-10T15:01:25.276+05:30  INFO 12016 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 181 ms. Found 6 JPA repository interfaces.
+2025-09-10T15:01:25.791+05:30  INFO 12016 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-10T15:01:25.804+05:30  INFO 12016 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-10T15:01:25.804+05:30  INFO 12016 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-10T15:01:25.865+05:30  INFO 12016 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-10T15:01:25.866+05:30  INFO 12016 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1951 ms
+2025-09-10T15:01:26.108+05:30  INFO 12016 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-10T15:01:26.172+05:30  INFO 12016 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-10T15:01:26.207+05:30  INFO 12016 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-10T15:01:26.525+05:30  INFO 12016 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-10T15:01:26.558+05:30  INFO 12016 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-10T15:01:26.998+05:30  INFO 12016 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@34e68840
+2025-09-10T15:01:26.999+05:30  INFO 12016 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-10T15:01:27.207+05:30  WARN 12016 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-10T15:01:27.230+05:30  INFO 12016 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-10T15:01:28.265+05:30  INFO 12016 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-10T15:01:28.510+05:30  INFO 12016 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-10T15:01:28.873+05:30 DEBUG 12016 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
+2025-09-10T15:01:29.399+05:30  WARN 12016 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-10T15:01:29.490+05:30  INFO 12016 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
+2025-09-10T15:01:29.678+05:30  INFO 12016 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-10T15:01:30.042+05:30  WARN 12016 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-09-10T15:01:30.304+05:30  INFO 12016 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-09-10T15:01:30.304+05:30  INFO 12016 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@356c8fa9]]
+2025-09-10T15:01:30.305+05:30  INFO 12016 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-09-10T15:01:30.315+05:30  INFO 12016 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-10T15:01:30.325+05:30  INFO 12016 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 7.096 seconds (process running for 8.397)
+2025-09-10T15:01:30.824+05:30  INFO 12016 --- [Blog_Management] [RMI TCP Connection(2)-192.168.30.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-10T15:01:30.825+05:30  INFO 12016 --- [Blog_Management] [RMI TCP Connection(2)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-10T15:01:30.826+05:30  INFO 12016 --- [Blog_Management] [RMI TCP Connection(2)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-09-10T15:02:30.272+05:30  INFO 12016 --- [Blog_Management] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-09-10T15:02:31.973+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete
+2025-09-10T15:02:31.991+05:30  INFO 12016 --- [Blog_Management] [tomcat-shutdown] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete
+2025-09-10T15:02:31.995+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2025-09-10T15:02:31.995+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@356c8fa9]]
+2025-09-10T15:02:31.995+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2025-09-10T15:02:32.010+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-09-10T15:02:32.015+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-09-10T15:02:32.026+05:30  INFO 12016 --- [Blog_Management] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-09-10T15:02:35.175+05:30  INFO 10696 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Starting BlogManagementApplication using Java 21.0.3 with PID 10696 (C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management\target\classes started by ahasna in C:\Users\ahasna\Documents\AAD\SPIRING-BOOT\Blog_Management)
+2025-09-10T15:02:35.176+05:30 DEBUG 10696 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Running with Spring Boot v3.5.4, Spring v6.2.9
+2025-09-10T15:02:35.177+05:30  INFO 10696 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : No active profile set, falling back to 1 default profile: "default"
+2025-09-10T15:02:36.276+05:30  INFO 10696 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-09-10T15:02:36.416+05:30  INFO 10696 --- [Blog_Management] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 132 ms. Found 6 JPA repository interfaces.
+2025-09-10T15:02:36.866+05:30  INFO 10696 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-09-10T15:02:36.878+05:30  INFO 10696 --- [Blog_Management] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-09-10T15:02:36.879+05:30  INFO 10696 --- [Blog_Management] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.43]
+2025-09-10T15:02:36.930+05:30  INFO 10696 --- [Blog_Management] [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-09-10T15:02:36.931+05:30  INFO 10696 --- [Blog_Management] [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1713 ms
+2025-09-10T15:02:37.183+05:30  INFO 10696 --- [Blog_Management] [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-09-10T15:02:37.223+05:30  INFO 10696 --- [Blog_Management] [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.22.Final
+2025-09-10T15:02:37.251+05:30  INFO 10696 --- [Blog_Management] [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-09-10T15:02:37.504+05:30  INFO 10696 --- [Blog_Management] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-09-10T15:02:37.529+05:30  INFO 10696 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-09-10T15:02:37.845+05:30  INFO 10696 --- [Blog_Management] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@677c2820
+2025-09-10T15:02:37.847+05:30  INFO 10696 --- [Blog_Management] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-09-10T15:02:37.911+05:30  WARN 10696 --- [Blog_Management] [main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-09-10T15:02:37.926+05:30  INFO 10696 --- [Blog_Management] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.40
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-09-10T15:02:38.816+05:30  INFO 10696 --- [Blog_Management] [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-09-10T15:02:38.950+05:30  INFO 10696 --- [Blog_Management] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-09-10T15:02:39.242+05:30 DEBUG 10696 --- [Blog_Management] [main] l.i.g.b.c.JwtTokenAuthenticationFilter   : Filter 'jwtTokenAuthenticationFilter' configured for use
+2025-09-10T15:02:39.701+05:30  WARN 10696 --- [Blog_Management] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-09-10T15:02:39.786+05:30  INFO 10696 --- [Blog_Management] [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page: URL [file:/C:/Users/ahasna/Documents/AAD/SPIRING-BOOT/Blog_Management/front_end/pages/index.html]
+2025-09-10T15:02:39.959+05:30  INFO 10696 --- [Blog_Management] [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-09-10T15:02:40.250+05:30  WARN 10696 --- [Blog_Management] [main] ion$DefaultTemplateResolverConfiguration : Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-09-10T15:02:40.500+05:30  INFO 10696 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2025-09-10T15:02:40.500+05:30  INFO 10696 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@6385af63]]
+2025-09-10T15:02:40.500+05:30  INFO 10696 --- [Blog_Management] [main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2025-09-10T15:02:40.511+05:30  INFO 10696 --- [Blog_Management] [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-09-10T15:02:40.521+05:30  INFO 10696 --- [Blog_Management] [main] l.i.g.b.BlogManagementApplication        : Started BlogManagementApplication in 5.764 seconds (process running for 6.415)
+2025-09-10T15:02:41.028+05:30  INFO 10696 --- [Blog_Management] [RMI TCP Connection(1)-192.168.30.21] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-09-10T15:02:41.028+05:30  INFO 10696 --- [Blog_Management] [RMI TCP Connection(1)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-09-10T15:02:41.030+05:30  INFO 10696 --- [Blog_Management] [RMI TCP Connection(1)-192.168.30.21] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-09-10T15:03:40.481+05:30  INFO 10696 --- [Blog_Management] [MessageBroker-1] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 0 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(0)-CONNECTED(0)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 0], sockJsScheduler[pool size = 1, active threads = 1, queued tasks = 0, completed tasks = 0]
+2025-09-10T15:07:46.225+05:30  WARN 10696 --- [Blog_Management] [http-nio-8080-exec-5] ration$PageModule$WarningLoggingModifier : Serializing PageImpl instances as-is is not supported, meaning that there is no guarantee about the stability of the resulting JSON structure!
+	For a stable JSON structure, please use Spring Data's PagedModel (globally via @EnableSpringDataWebSupport(pageSerializationMode = VIA_DTO))
+	or Spring HATEOAS and Spring Data's PagedResourcesAssembler as documented in https://docs.spring.io/spring-data/commons/reference/repositories/core-extensions.html#core.web.pageables.
+
+2025-09-10T15:33:40.528+05:30  INFO 10696 --- [Blog_Management] [MessageBroker-9] o.s.w.s.c.WebSocketMessageBrokerStats    : WebSocketSession[0 current WS(0)-HttpStream(0)-HttpPoll(0), 1 total, 0 closed abnormally (0 connect failure, 0 send limit, 0 transport error)], stompSubProtocol[processed CONNECT(1)-CONNECTED(1)-DISCONNECT(0)], stompBrokerRelay[null], inboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 9], outboundChannel[pool size = 0, active threads = 0, queued tasks = 0, completed tasks = 2], sockJsScheduler[pool size = 12, active threads = 1, queued tasks = 1, completed tasks = 272]
