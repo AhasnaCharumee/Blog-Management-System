@@ -45,4 +45,12 @@ public class LikeServiceImpl implements LikeService {
                     return new LikeDTO(); // Or an appropriate DTO for liked state
                 });
     }
+    public boolean hasUserLikedPost(Long postId, String userEmail) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFound("Post not found with id " + postId));
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new ResourceNotFound("User not found with email " + userEmail));
+        return likeRepository.findByUserAndPost(user, post).isPresent();
+    }
+
 }

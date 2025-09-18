@@ -181,7 +181,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-custom mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand text-light" href="/index.html">
+        <a class="navbar-brand text-light" href="index.html">
             <img src="../images/download.png" alt="BlogSphere Icon" width="32" class="me-2">BlogSphere
         </a>
         <div class="d-flex">
@@ -292,16 +292,13 @@
     async function loadUser() {
         try {
             const res = await fetch(`${API_BASE}/me`, {
-                credentials: 'include', // important for JWT cookie
+                credentials: 'include',
                 signal: AbortSignal.timeout(3000)
             });
-
             if (!res.ok) throw new Error('API not available');
             const user = await res.json();
             populateUserData(user);
-
         } catch (error) {
-            console.log('API not available, using mock data for preview');
             const mockUser = {
                 id: 1,
                 name: "John Doe",
@@ -313,7 +310,6 @@
         }
     }
 
-    // Populate user details in HTML
     function populateUserData(user) {
         document.getElementById('userId').value = user.id;
         document.getElementById('name').value = user.name;
@@ -322,7 +318,6 @@
         document.getElementById('userName').textContent = user.name;
         document.getElementById('userEmail').textContent = user.email;
         document.getElementById('userBio').textContent = user.bio || 'No bio available';
-
         const profileImg = document.getElementById('profileImage');
         if (user.profileImagePath) {
             profileImg.src = `/uploads/${user.profileImagePath}`;
@@ -340,15 +335,13 @@
                 credentials: 'include'
             });
             if (res.ok) window.location.href = 'index.html';
-            else console.error('Logout failed');
         } catch (err) {
             console.error('Error during logout:', err);
         }
     });
 
-
-    // Load user posts
-    async function loadUserPosts() {
+    // Load user posts and like status
+    async function loadUserPostsAndLikeStatus() {
         try {
             const res = await fetch(POSTS_API, {
                 credentials: 'include',
@@ -357,14 +350,25 @@
             if (!res.ok) throw new Error('Failed posts');
             const result = await res.json();
             const posts = Array.isArray(result) ? result : (result.data || []);
+            // Fetch like status for each post
+            for (const post of posts) {
+                try {
+                    const likeRes = await fetch(`http://localhost:8080/api/posts/${post.id}/user-like-status`, { credentials: 'include' });
+                    const likeResult = await likeRes.json();
+                    post.userLiked = likeResult.data === true;
+                } catch {
+                    post.userLiked = false;
+                }
+            }
             displayPosts(posts);
+            updateInteractionCharts(posts);
         } catch (error) {
-            console.log('API not available, using mock posts for preview');
             const mockPosts = [
-                {id:1, content:"Just finished building a UI!", likes:42, commentsCount:8, views:156, createdAt:new Date().toISOString(), user:{name:"John Doe", profileImagePath:null}, imagePath:null},
-                {id:2, content:"Working on web projects.", likes:28, commentsCount:5, views:89, createdAt:new Date(Date.now()-86400000).toISOString(), user:{name:"John Doe", profileImagePath:null}, imagePath:null}
+                {id:1, content:"Just finished building a UI!", likes:42, commentsCount:8, views:156, createdAt:new Date().toISOString(), user:{name:"John Doe", profileImagePath:null}, imagePath:null, userLiked:true},
+                {id:2, content:"Working on web projects.", likes:28, commentsCount:5, views:89, createdAt:new Date(Date.now()-86400000).toISOString(), user:{name:"John Doe", profileImagePath:null}, imagePath:null, userLiked:false}
             ];
             displayPosts(mockPosts);
+            updateInteractionCharts(mockPosts);
         }
     }
 
@@ -372,73 +376,98 @@
     function displayPosts(posts) {
         const container = document.getElementById('userPosts');
         if (posts && posts.length) {
-            container.innerHTML = posts.map(renderPostCard).join('');
+            let html = '';
+            for (let i = 0; i < posts.length; i += 2) {
+                html += '<div class="row">';
+                html += `<div class="col-md-6">${renderPostCard(posts[i])}</div>`;
+                if (posts[i + 1]) {
+                    html += `<div class="col-md-6">${renderPostCard(posts[i + 1])}</div>`;
+                }
+                html += '</div>';
+            }
+            container.innerHTML = html;
         } else {
             container.innerHTML = '<p class="text-center" style="color: rgba(255, 255, 255, 0.7);">No posts yet.</p>';
         }
     }
 
-    // Render single post card
     function renderPostCard(post) {
         const date = post.createdAt ? new Date(post.createdAt).toLocaleDateString() : "";
         const profileImg = post.user?.profileImagePath
             ? `/uploads/${post.user.profileImagePath}`
             : `https://ui-avatars.com/api/?name=${encodeURIComponent(post?.author || 'User')}&background=FF8C00&color=fff&size=40`;
 
-        return `
-        <div class="post-card">
-            <div class="post-header">
-                <img src="${profileImg}" alt="profile">
-                <div>
-                    <div class="username">${post?.author || post.user?.name || 'Unknown User'}</div>
-                    <div class="date">${date}</div>
-                </div>
-            </div>
-            <div class="post-content">${post.content}</div>
-            ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image" alt="Post image">` : ''}
-            <div class="post-footer">
-                <span>👍 ${post.likes || 0}</span>
-                <span>💬 ${post.commentsCount || 0}</span>
-                <span>👁️ ${post.views || 0}</span>
-            </div>
-        </div>`;
-    }
-
-    // Load interaction stats
-    async function loadInteractionStats() {
-        try {
-            const res = await fetch('http://localhost:8080/api/posts/me/interaction-stats', {
-                credentials: 'include',
-                signal: AbortSignal.timeout(3000)
-            });
-            if (!res.ok) throw new Error('Failed stats');
-            const data = await res.json();
-            const stats = data.data || data;
-            renderCharts(stats);
-        } catch (error) {
-            console.log('API not available, using mock stats for preview');
-            const mockStats = { totalLikes:245, totalComments:89, totalViews:1250 };
-            renderCharts(mockStats);
+        const maxLength = 120;
+        const contentId = `post-content-${post.id}`;
+        let shortContent = post.content;
+        let readMore = '';
+        if (post.content && post.content.length > maxLength) {
+            shortContent = post.content.substring(0, maxLength) + '...';
+            readMore = `<a href="#" class="read-more" onclick="showFullContent('${contentId}', decodeURIComponent('${encodeURIComponent(post.content).replace(/'/g, "%27")}'));return false;">Read More</a>`;
         }
+
+        return `
+    <div class="post-card">
+        <div class="post-header">
+            <img src="${profileImg}" alt="profile">
+            <div>
+                <div class="username">${post?.author || post.user?.name || 'Unknown User'}</div>
+                <div class="date">${date}</div>
+            </div>
+        </div>
+        <div class="post-content" id="${contentId}">${shortContent} ${readMore}</div>
+        ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image" alt="Post image">` : ''}
+        <div class="post-footer">
+            <span>👍 ${post.likes || 0}</span>
+            <span>💬 ${post.commentsCount || 0}</span>
+            <span>👁️ ${post.views || 0}</span>
+            <span>User Liked: ${post.userLiked ? 'Yes' : 'No'}</span>
+        </div>
+    </div>`;
     }
 
-    // Render charts
-    function renderCharts(stats) {
-        renderInteractionPieChart(stats.totalLikes, stats.totalComments, stats.totalViews);
-        renderInteractionBarChart(stats);
+    // Update showFullContent to escape HTML
+    function showFullContent(id, content) {
+        document.getElementById(id).innerHTML = content.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, "<br>");
+    }
+
+    // Update chart rendering to include userLiked count
+    function updateInteractionCharts(posts) {
+        const totalLikes = posts.reduce((sum, p) => sum + (p.likes || 0), 0);
+        const totalComments = posts.reduce((sum, p) => sum + (p.commentsCount || 0), 0);
+        const totalViews = posts.reduce((sum, p) => sum + (p.views || 0), 0);
+        const userLikedCount = posts.filter(p => p.userLiked).length;
+
+        renderInteractionPieChart(totalLikes, totalComments, totalViews, userLikedCount);
+        renderInteractionBarChart({ totalLikes, totalComments, totalViews, userLikedCount });
     }
 
     // Pie chart
-    function renderInteractionPieChart(likes, comments, views) {
+    function renderInteractionPieChart(likes, comments, views, userLikedCount) {
         const ctx = document.getElementById('interactionPieChart');
         if (!ctx) return;
         new Chart(ctx, {
             type: 'pie',
             data: {
-                labels: ['Likes','Comments','Views'],
-                datasets:[{data:[likes,comments,views],backgroundColor:['rgba(255,140,0,0.8)','rgba(255,165,0,0.8)','rgba(255,215,0,0.8)'],borderColor:['rgba(255,140,0,1)','rgba(255,165,0,1)','rgba(255,215,0,1)'],borderWidth:2}]
+                labels: ['Likes', 'Comments', 'Views', 'User Liked'],
+                datasets: [{
+                    data: [likes, comments, views, userLikedCount],
+                    backgroundColor: [
+                        'rgba(255,140,0,0.8)',
+                        'rgba(255,165,0,0.8)',
+                        'rgba(255,215,0,0.8)',
+                        'rgba(0,200,83,0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255,140,0,1)',
+                        'rgba(255,165,0,1)',
+                        'rgba(255,215,0,1)',
+                        'rgba(0,200,83,1)'
+                    ],
+                    borderWidth: 2
+                }]
             },
-            options:{responsive:true}
+            options: { responsive: true }
         });
     }
 
@@ -447,28 +476,35 @@
         const ctx = document.getElementById('interactionBarChart');
         if (!ctx) return;
         new Chart(ctx, {
-            type:'bar',
-            data:{
-                labels:['Likes','Comments','Views'],
-                datasets:[{
-                    label:'Interactions',
-                    data:[stats.totalLikes,stats.totalComments,stats.totalViews],
-                    backgroundColor:['rgba(255,140,0,0.6)','rgba(255,165,0,0.6)','rgba(255,215,0,0.6)'],
-                    borderColor:['rgba(255,140,0,1)','rgba(255,165,0,1)','rgba(255,215,0,1)'],
-                    borderWidth:2,borderRadius:8
+            type: 'bar',
+            data: {
+                labels: ['Likes', 'Comments',  'User Liked'],
+                datasets: [{
+                    label: 'Interactions',
+                    data: [stats.totalLikes, stats.totalComments,  stats.userLikedCount],
+                    backgroundColor: [
+                        'rgba(255,140,0,0.6)',
+                        'rgba(255,165,0,0.6)',
+                        'rgba(0,200,83,0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255,140,0,1)',
+                        'rgba(255,165,0,1)',
+                        'rgba(0,200,83,1)'
+                    ],
+                    borderWidth: 2, borderRadius: 8
                 }]
             },
-            options:{responsive:true}
+            options: { responsive: true }
         });
     }
 
     // On page load
     window.onload = () => {
-        console.log('Initializing My Account page...');
         loadUser();
-        loadInteractionStats();
-        loadUserPosts();
+        loadUserPostsAndLikeStatus();
     };
+
 </script>
 <a href="chat-bot.html" class="chatbot-btn" title="Open Blog Bot">
     <i class="fas fa-robot"></i>

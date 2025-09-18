@@ -15,14 +15,35 @@
             color:#f6f2e9;
             font-family:Arial,Helvetica,sans-serif;
         }
+        body.light-mode {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #22223b;
+        }
         .navbar-glass{background:rgba(34,34,34,0.85);backdrop-filter:blur(8px);border-radius:16px;
             box-shadow:0 4px 24px rgba(0,0,0,0.25);margin:18px auto 32px auto;padding:0.7rem 1.5rem;}
+        .navbar-custom {
+            background: rgba(255,255,255,0.95);
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+        }
         .glassy-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);border-radius:16px;
             border:1px solid rgba(255,255,255,0.1);box-shadow:0 4px 30px rgba(0,0,0,0.1);}
+        .section-card {
+            background: rgba(255,255,255,0.85);
+            border: 1px solid #e2e8f0;
+            color: #22223b;
+        }
         .post-image{max-width:100%;height:auto;border-radius:12px;}
         .glassy-btn{background:#fd6537;border:none;color:#fff;border-radius:8px;padding:8px 18px;
             font-weight:600;transition:background 0.2s;}
         .glassy-btn:hover{background:#ff835e;}
+        .btn-nav {
+            background: linear-gradient(135deg, #ff5f08, #6ee7b7);
+            color: #fff !important;
+        }
+        .btn-nav:hover {
+            background: linear-gradient(135deg, #6ee7b7, #38b6ff);
+        }
         .post-title a{color:inherit;text-decoration:none;transition:color 0.3s ease;}
         .post-title a:hover{color:#fd6537;}
         .like-btn,.comment-toggle-btn{background:transparent;color:#fd6537;border:1px solid #fd6537;
@@ -32,6 +53,17 @@
         .comment-section{background:rgba(255,255,255,0.03);border-radius:10px;padding:1rem;margin-top:1rem;}
         .comment-item{background:rgba(255,255,255,0.05);border-radius:6px;padding:0.5rem;margin-bottom:0.5rem;}
         .read-more-btn{margin-top:10px;}
+        .post-card {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #e2e8f0;
+            color: #22223b;
+        }
+        .post-header .username {
+            color: #38b6ff;
+        }
+        .post-footer span:hover {
+            color: #38b6ff;
+        }
     </style>
 </head>
 <body>
@@ -48,10 +80,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item" style="background-color: orangered;color: white;border-radius: 5px;margin-left: 5px;"><a href="post.html" class="nav-link">Create New Post</a></li>
-                <li class="nav-item" style="background-color: orangered;color: white;border-radius: 5px;margin-left: 5px;"><a href="my_account.html" class="nav-link">My Account</a></li>
+                <li class="nav-item btn-nav" style="border-radius: 5px;margin-left: 5px;"><a href="post.html" class="nav-link">Create New Post</a></li>
+                <li class="nav-item btn-nav" style="border-radius: 5px;margin-left: 5px;"><a href="my_account.html" class="nav-link">My Account</a></li>
                 <li class="nav-item">
-                    <form action="/logout" method="post" style="display:inline;">
+                    <form id="logoutForm" action="/logout" method="post" style="display:inline;">
                         <button type="submit" class="btn btn-logout" style="background-color: orangered;color: white;border-radius: 5px;margin-left: 5px;">
                             <i class="fa-solid fa-right-from-bracket"></i> Logout
                         </button>
@@ -92,28 +124,37 @@
     </div>
 </div>
 
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const BASE_URL = 'http://localhost:8080/api/posts';
     let loadedPosts = [];
     let currentPage = 0;
-    const pageSize = 6;
+    const pageSize = 6; // 6 posts per page
 
     // Load posts
     async function loadPublishedPosts(query="", page=0, size=pageSize){
         try{
-            const res = await fetch(`${BASE_URL}/search?title=${query}&page=${page}&size=${size}`, {credentials:"include"});
+            const res = await fetch(`${BASE_URL}/search?title=${encodeURIComponent(query)}&page=${page}&size=${size}`,
+                { credentials: "include" });
             const result = await res.json();
-            loadedPosts = result.data.content;
+            const data = result.data;
+
+            if(page >= data.totalPages && data.totalPages > 0){
+                // Go to last available page
+                return loadPublishedPosts(query, data.totalPages - 1, size);
+            }
+
+            loadedPosts = data.content;
             renderPosts();
-            renderPagination(result.data.totalPages, page);
+            renderPagination(data.totalPages, page);
         }catch(err){
+            console.error(err);
             document.getElementById('post-list').innerHTML =
                 `<div class="col-12"><div class="alert alert-danger">Failed to load posts.</div></div>`;
         }
     }
 
+    // Render posts
     // Render posts
     function renderPosts(){
         const postList = document.getElementById('post-list');
@@ -122,41 +163,46 @@
             return;
         }
         postList.innerHTML = loadedPosts.map(post=>`
-    <div class="col-lg-4 col-md-6 mb-4">
-      <div class="card glassy-card h-100 text-white-50">
-        ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image mt-3 mb-2"/>` : ''}
-        <div class="card-body">
-          <h5 class="card-title post-title" style="color:#fd6537;">${post.title}</h5>
-          <p class="card-text"><small>By ${post.author} | ${new Date(post.createdDate).toLocaleDateString()}</small></p>
-          <p class="card-text">${post.content.length>120?post.content.substring(0,120)+'...':post.content}</p>
-          <button class="btn glassy-btn mt-2 read-more-btn" data-post-id="${post.id}">Read More</button>
-          <div class="mt-3 d-flex align-items-center gap-2">
-            <button class="like-btn" data-post-id="${post.id}">
-              <i class="fa-regular fa-thumbs-up"></i>
-              <span class="like-count">${post.likes}</span>
-            </button>
-            <button class="comment-toggle-btn" type="button" data-bs-toggle="collapse"
-              data-bs-target="#comments-${post.id}">
-              <i class="fa-regular fa-comment"></i>
-              <span class="comment-count">${post.commentsCount}</span>
-            </button>
-          </div>
-          <div class="collapse comment-section" id="comments-${post.id}">
-            <div id="comments-list-${post.id}" class="mb-2"></div>
-            <form class="comment-form" data-post-id="${post.id}">
-              <div class="input-group">
-                <textarea class="form-control" rows="1" placeholder="Add a comment"></textarea>
-                <button class="btn glassy-btn" type="submit">Post</button>
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card glassy-card h-100 text-white-50">
+            ${post.imagePath ? `<img src="/uploads/${post.imagePath}" class="post-image mt-3 mb-2"/>` : ''}
+            <div class="card-body">
+              <h5 class="card-title post-title" style="color:#fd6537;">${post.title}</h5>
+              <p class="card-text"><small>By ${post.author} | ${new Date(post.createdDate).toLocaleDateString()}</small></p>
+              <p class="card-text">${post.content.length>120?post.content.substring(0,120)+'...':post.content}</p>
+              <button class="btn glassy-btn mt-2 read-more-btn" data-post-id="${post.id}">Read More</button>
+              <div class="mt-3 d-flex align-items-center gap-2">
+                <button class="like-btn" data-post-id="${post.id}">
+                  <i class="fa-regular fa-thumbs-up"></i>
+                  <span class="like-count">${post.likes}</span>
+                </button>
+                <button class="comment-toggle-btn" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#comments-${post.id}">
+                  <i class="fa-regular fa-comment"></i>
+                  <span class="comment-count">${post.commentsCount}</span>
+                </button>
               </div>
-            </form>
+              <div class="collapse comment-section" id="comments-${post.id}">
+                <div id="comments-list-${post.id}" class="mb-2"></div>
+                <form class="comment-form" data-post-id="${post.id}">
+                  <div class="input-group">
+                    <textarea class="form-control" rows="1" placeholder="Add a comment"></textarea>
+                    <button class="btn glassy-btn" type="submit">Post</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>`).join('');
+        </div>`).join('');
+
         initializeLikeStatus();
+
+        // Load comments for each post after rendering
+        loadedPosts.forEach(post => loadComments(post.id));
     }
 
-    // Pagination render
+
+    // Render pagination
     function renderPagination(totalPages, current){
         const pagination = document.getElementById('pagination');
         pagination.innerHTML='';
@@ -168,7 +214,7 @@
         }
     }
 
-    // Like status check
+    // Like status
     async function initializeLikeStatus(){
         for(const post of loadedPosts){
             const likeBtn = document.querySelector(`.like-btn[data-post-id="${post.id}"]`);
@@ -185,11 +231,51 @@
         }
     }
 
+    // Escape HTML helper
+    function escapeHtml(str){
+        return str.replace(/&/g,"&amp;")
+            .replace(/</g,"&lt;")
+            .replace(/>/g,"&gt;")
+            .replace(/"/g,"&quot;")
+            .replace(/'/g,"&#39;");
+    }
+
+    // Load comments
+    async function loadComments(id) {
+        const div = document.getElementById(`comments-list-${id}`);
+        div.innerHTML = '<div class="text-center text-muted">Loading comments...</div>';
+        try {
+            const res = await fetch(`${BASE_URL}/${id}/comments`, { credentials: "include" });
+            const result = await res.json();
+
+            // If backend returns an array directly
+            const comments = Array.isArray(result) ? result : result.data;
+
+            div.innerHTML = (Array.isArray(comments) && comments.length)
+                ? comments.map(c => `
+                <div class="comment-item">
+                  <small class="text-white fw-bold">${escapeHtml(c.authorName)}</small>
+                  <p class="mb-0 text-white-50">${escapeHtml(c.content)}</p>
+                  <small class="text-muted">${new Date(c.createdDate).toLocaleDateString()}</small>
+                </div>`).join('')
+                : '<div class="text-center text-muted">No comments.</div>';
+        } catch (err) {
+            console.error(err);
+            div.innerHTML = '<div class="text-center text-muted">Failed to load comments.</div>';
+        }
+    }
+
+
     // Events
-    document.addEventListener('DOMContentLoaded', ()=>loadPublishedPosts());
-    document.getElementById('searchBar').addEventListener('input', e=>{
-        loadPublishedPosts(e.target.value,0);
+    document.addEventListener('DOMContentLoaded', ()=>{
+        loadPublishedPosts();
+
+        document.getElementById('searchBar').addEventListener('input', e=>{
+            loadPublishedPosts(e.target.value,0);
+        });
     });
+
+    // Post-list click
     document.getElementById('post-list').addEventListener('click', async e=>{
         // Like
         if(e.target.closest('.like-btn')){
@@ -220,14 +306,15 @@
             document.getElementById('postModalLabel').textContent=post.title;
             document.getElementById('modalContent').innerHTML=`
       ${post.imagePath?`<img src="/uploads/${post.imagePath}" class="post-image mb-3"/>`:''}
-      <p>${post.content}</p>
+      <p>${escapeHtml(post.content).replace(/\n/g,"<br>")}</p>
       <div class="mt-2" style="color:#fd6537;">
         👍 ${post.likes} &nbsp; 💬 ${post.commentsCount} &nbsp; 👁️ ${post.views}
       </div>`;
             new bootstrap.Modal(document.getElementById('postModal')).show();
         }
     });
-    // Comment
+
+    // Comment submit
     document.getElementById('post-list').addEventListener('submit', async e=>{
         if(e.target.classList.contains('comment-form')){
             e.preventDefault();
@@ -237,35 +324,30 @@
             if(!txt.value.trim())return;
             try{
                 await fetch(`${BASE_URL}/${id}/comments`,{
-                    method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},
-                    body:JSON.stringify(txt.value)});
+                    method:'POST',
+                    credentials:'include',
+                    headers:{'Content-Type':'application/json'},
+                    body:JSON.stringify(txt.value)
+                });
                 txt.value='';
                 loadComments(id);
                 const post=loadedPosts.find(p=>p.id==id);
-                if(post){post.commentsCount++;form.closest('.card-body').querySelector('.comment-count').textContent=post.commentsCount;}
+                if(post){
+                    post.commentsCount++;
+                    form.closest('.card-body').querySelector('.comment-count').textContent=post.commentsCount;
+                }
             }catch{alert('Failed to add comment')}
         }
     });
-    document.getElementById('post-list').addEventListener('show.bs.collapse', e=>{
-        const id=e.target.id.replace('comments-','');
-        loadComments(id);
+
+    // Logout redirect
+    document.getElementById('logoutForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        await fetch('/logout', { method: 'POST', credentials: 'include' });
+        window.location.href = 'index.html';
     });
-    async function loadComments(id){
-        const div=document.getElementById(`comments-list-${id}`);
-        div.innerHTML='<div class="text-center text-muted">Loading comments...</div>';
-        try{
-            const res=await fetch(`${BASE_URL}/${id}/comments`);
-            const result=await res.json();
-            div.innerHTML=(Array.isArray(result.data)&&result.data.length)?result.data.map(c=>`
-      <div class="comment-item">
-        <small class="text-white fw-bold">${c.authorName}</small>
-        <p class="mb-0 text-white-50">${c.content}</p>
-        <small class="text-muted">${new Date(c.createdDate).toLocaleDateString()}</small>
-      </div>`).join(''):'<div class="text-center text-muted">No comments.</div>';
-        }catch{div.innerHTML='<div class="text-center text-muted">Failed to load comments.</div>';}
-    }
-
-
 </script>
+
+
 </body>
 </html>

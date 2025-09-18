@@ -202,7 +202,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Page<PostDTO> searchPostsByTitle(String title, Pageable pageable) {
-        return postRepository.findByTitleContainingIgnoreCase(title, pageable)
+        return postRepository.findByTitleContainingAndStatus(title, PostStatus.APPROVED, pageable)
                 .map(this::toDTO);
     }
+
 }
