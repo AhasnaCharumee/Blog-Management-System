@@ -265,7 +265,12 @@
 
     async function viewComments(postId) {
         try {
-            const res = await fetch(`${COMMENTS_API}/${postId}/comments`);
+            const headers = {};
+            const token = localStorage.getItem('token');
+            if (token) {
+                headers['Authorization'] = 'Bearer ' + token;
+            }
+            const res = await fetch(`${COMMENTS_API}/${postId}/comments`, { headers });
             if(!res.ok) throw new Error("Failed to fetch comments");
             const data = await res.json();
             const commentsList = document.getElementById('commentsList');
